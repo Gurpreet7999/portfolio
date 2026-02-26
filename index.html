@@ -216,6 +216,9 @@
   .reveal { opacity: 0; transform: translateY(40px); transition: all 0.7s cubic-bezier(0.16,1,0.3,1); }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
+  @keyframes rheaPulse { 0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--accent); } 50% { opacity: 0.4; box-shadow: 0 0 12px var(--accent); } }
+  @keyframes sarahPulse { 0%, 100% { opacity: 1; box-shadow: 0 0 6px #7b61ff; } 50% { opacity: 0.4; box-shadow: 0 0 12px #7b61ff; } }
+
   /* RESPONSIVE */
   @media (max-width: 900px) {
     nav { padding: 13px 20px; }
@@ -417,7 +420,10 @@
           <div class="impact-item"><div class="impact-num">100%</div><div class="impact-label">Automated</div></div>
           <div class="impact-item"><div class="impact-num">0</div><div class="impact-label">Manual Steps</div></div>
         </div>
-        <a href="https://github.com/Gurpreet7999/ai-cinema-voice-booking-agent" target="_blank" class="project-link">View on GitHub</a>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:auto;flex-wrap:wrap;">
+          <a href="https://github.com/Gurpreet7999/ai-cinema-voice-booking-agent" target="_blank" class="project-link" style="margin-top:0;">View on GitHub</a>
+          <button onclick="openRheaPage()" style="padding:8px 16px;background:var(--accent);color:#000;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);transition:all 0.3s;cursor:none;display:flex;align-items:center;gap:6px;white-space:nowrap;">🎤 Talk to Rhea</button>
+        </div>
       </div>
     </div>
 
@@ -434,7 +440,10 @@
         <div class="project-impact">
           <div class="impact-item"><div class="impact-num">70%</div><div class="impact-label">Fewer Missed Calls</div></div>
         </div>
-        <a href="https://github.com/Gurpreet7999/ai-dental-voice-assistant" target="_blank" class="project-link">View on GitHub</a>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:auto;flex-wrap:wrap;">
+          <a href="https://github.com/Gurpreet7999/ai-dental-voice-assistant" target="_blank" class="project-link" style="margin-top:0;">View on GitHub</a>
+          <button onclick="openSarahPage()" style="padding:8px 16px;background:var(--accent2);color:#fff;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);transition:all 0.3s;cursor:none;display:flex;align-items:center;gap:6px;white-space:nowrap;">🦷 Talk to Sarah</button>
+        </div>
       </div>
     </div>
 
@@ -558,8 +567,8 @@
       <h2 class="contact-heading reveal">Let's Build<br><span>Something</span><br>Together.</h2>
       <p class="contact-sub reveal">Have a process that needs automation? An idea that needs an AI agent? Open for freelance work and collaborations.</p>
       <div class="contact-links reveal">
-        <a href="mailto:gpssingh277@gmail.com" class="contact-link">
-          <div class="contact-icon">✉</div>gpssingh277@gmail.com
+        <a href="/cdn-cgi/l/email-protection#c5a2b5b6b6acaba2adf7f2f285a2a8a4aca9eba6aaa8" class="contact-link">
+          <div class="contact-icon">✉</div><span class="__cf_email__" data-cfemail="3b5c4b484852555c53090c0c7b5c565a525715585456">[email&#160;protected]</span>
         </a>
         <a href="tel:+917999386243" class="contact-link">
           <div class="contact-icon">📱</div>+91 7999 386 243
@@ -584,13 +593,299 @@
   </div>
 </div>
 
+<!-- SARAH PAGE MODAL -->
+<div id="sarahPageOverlay" style="display:none;position:fixed;inset:0;z-index:2000;background:var(--bg);overflow-y:auto;">
+  <div style="max-width:960px;margin:0 auto;padding:60px 40px 100px;">
+
+    <!-- Back Button -->
+    <button onclick="closeSarahPage()" style="display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;cursor:none;margin-bottom:48px;transition:all 0.3s;" onmouseenter="this.style.borderColor='var(--accent2)';this.style.color='var(--accent2)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+      ← Back to Portfolio
+    </button>
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;">
+      <span style="font-size:42px;">🦷</span>
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--accent2);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;">PROJECT 02</div>
+        <h1 style="font-size:clamp(32px,5vw,60px);font-weight:800;letter-spacing:-2px;line-height:1;">Sarah — AI Dental<br><span style="background:linear-gradient(135deg,#fff 0%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Voice Assistant</span></h1>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px;">
+      <span style="padding:4px 12px;background:rgba(0,245,160,0.08);border:1px solid rgba(0,245,160,0.25);font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;">Google Gemini</span>
+      <span style="padding:4px 12px;background:rgba(123,97,255,0.08);border:1px solid rgba(123,97,255,0.25);font-family:'Space Mono',monospace;font-size:9px;color:var(--accent2);letter-spacing:1px;text-transform:uppercase;">Voice AI</span>
+      <span style="padding:4px 12px;background:rgba(0,245,160,0.08);border:1px solid rgba(0,245,160,0.25);font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;">WhatsApp API</span>
+      <span style="padding:4px 12px;background:rgba(123,97,255,0.08);border:1px solid rgba(123,97,255,0.25);font-family:'Space Mono',monospace;font-size:9px;color:var(--accent2);letter-spacing:1px;text-transform:uppercase;">SaaS Logic</span>
+      <span style="padding:4px 12px;background:rgba(123,97,255,0.08);border:1px solid rgba(123,97,255,0.25);font-family:'Space Mono',monospace;font-size:9px;color:var(--accent2);letter-spacing:1px;text-transform:uppercase;">n8n</span>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:48px;">
+
+      <!-- Left: Info -->
+      <div>
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:14px;color:var(--text);">What is Sarah?</h2>
+        <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:20px;">Sarah is an intelligent AI voice assistant built for dental clinics. She handles patient queries around the clock, books appointments through natural conversation, and sends WhatsApp confirmations — completely eliminating the need for a human receptionist to be on call.</p>
+
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:14px;color:var(--text);">How It Works</h2>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--accent2);background:rgba(123,97,255,0.08);border:1px solid rgba(123,97,255,0.2);padding:4px 8px;flex-shrink:0;">01</span>
+            <p style="font-size:13px;color:var(--muted);line-height:1.7;margin:0;"><strong style="color:var(--text);">24/7 Patient Query Handling</strong> — Sarah answers common dental questions anytime, without a human receptionist.</p>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--accent2);background:rgba(123,97,255,0.08);border:1px solid rgba(123,97,255,0.2);padding:4px 8px;flex-shrink:0;">02</span>
+            <p style="font-size:13px;color:var(--muted);line-height:1.7;margin:0;"><strong style="color:var(--text);">Conversational Appointment Booking</strong> — Collects patient name, preferred date, time, and concern through natural dialogue.</p>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--accent2);background:rgba(123,97,255,0.08);border:1px solid rgba(123,97,255,0.2);padding:4px 8px;flex-shrink:0;">03</span>
+            <p style="font-size:13px;color:var(--muted);line-height:1.7;margin:0;"><strong style="color:var(--text);">WhatsApp Confirmation</strong> — Instantly sends a booking confirmation to the patient via WhatsApp.</p>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--accent2);background:rgba(123,97,255,0.08);border:1px solid rgba(123,97,255,0.2);padding:4px 8px;flex-shrink:0;">04</span>
+            <p style="font-size:13px;color:var(--muted);line-height:1.7;margin:0;"><strong style="color:var(--text);">SaaS Trial Logic</strong> — Built-in trial flow simulates a real SaaS product experience, ready for clinic onboarding.</p>
+          </div>
+        </div>
+
+        <!-- Impact Stats -->
+        <div style="display:flex;gap:24px;padding:20px;background:var(--card);border:1px solid rgba(123,97,255,0.2);margin-bottom:20px;">
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--accent2);">70%</div>
+            <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Fewer Missed Calls</div>
+          </div>
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--accent2);">24/7</div>
+            <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Availability</div>
+          </div>
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--accent2);">0</div>
+            <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Manual Bookings</div>
+          </div>
+        </div>
+
+        <a href="https://github.com/Gurpreet7999/ai-dental-voice-assistant" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:transparent;color:var(--text);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border:1px solid var(--border);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:all 0.3s;">⌨ View on GitHub →</a>
+      </div>
+
+      <!-- Right: Chat Widget -->
+      <div>
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:8px;color:var(--text);">Talk to Sarah Live</h2>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6;">Experience Sarah firsthand — ask about dental services or try booking an appointment right here.</p>
+
+        <!-- PREVIEW STATE (shown before chat starts) -->
+        <div id="sarahPreview" style="border:1px solid rgba(123,97,255,0.25);background:var(--card);padding:36px 28px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:340px;text-align:center;position:relative;overflow:hidden;">
+          <!-- Glow bg -->
+          <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 30%, rgba(123,97,255,0.07) 0%, transparent 70%);pointer-events:none;"></div>
+          <!-- Icon -->
+          <div style="width:72px;height:72px;border-radius:50%;background:rgba(123,97,255,0.12);border:1px solid rgba(123,97,255,0.3);display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:20px;position:relative;z-index:1;">🦷</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent2);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;position:relative;z-index:1;">AI VOICE ASSISTANT</div>
+          <div style="font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px;position:relative;z-index:1;">Sarah</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;max-width:260px;margin-bottom:28px;position:relative;z-index:1;">Your AI dental receptionist — books appointments, answers queries 24/7.</div>
+
+          <!-- Mic warning note -->
+          <div style="display:flex;align-items:center;gap:8px;background:rgba(123,97,255,0.08);border:1px solid rgba(123,97,255,0.2);padding:10px 14px;margin-bottom:24px;position:relative;z-index:1;width:100%;max-width:320px;justify-content:center;">
+            <div id="sarahMicIcon" style="position:relative;cursor:none;">
+              <span style="font-size:16px;">🎤</span>
+              <!-- Tooltip -->
+              <div id="sarahMicTooltip" style="display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a0a0a;border:1px solid #ff4444;color:#ff4444;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;padding:6px 10px;white-space:nowrap;z-index:10;pointer-events:none;">
+                ⚠ Enable your web mic to talk
+                <div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #ff4444;"></div>
+              </div>
+            </div>
+            <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;">Voice enabled — mic required</span>
+          </div>
+
+          <!-- CTA Buttons -->
+          <div style="display:flex;gap:12px;position:relative;z-index:1;flex-wrap:wrap;justify-content:center;">
+            <button id="sarahStartBtn" onclick="startSarahChat()" style="display:flex;align-items:center;gap:8px;padding:12px 26px;background:var(--accent2);color:#fff;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);cursor:none;transition:all 0.3s;">
+              <span>▶</span> Start Chat
+            </button>
+            <button onclick="closeSarahPage()" style="padding:12px 20px;background:transparent;color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--border);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);cursor:none;transition:all 0.3s;">
+              Cancel
+            </button>
+          </div>
+        </div>
+
+        <!-- ACTIVE CHAT STATE (shown after Start Chat) -->
+        <div id="sarahChatActive" style="display:none;">
+          <div style="border:1px solid rgba(123,97,255,0.35);background:var(--card);overflow:hidden;height:480px;position:relative;">
+            <!-- Top bar -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(123,97,255,0.1);border-bottom:1px solid rgba(123,97,255,0.2);">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="display:inline-block;width:8px;height:8px;background:#7b61ff;border-radius:50%;box-shadow:0 0 6px #7b61ff;animation:sarahPulse 1.5s ease-in-out infinite;"></span>
+                <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--accent2);letter-spacing:2px;">SARAH — LIVE</span>
+              </div>
+              <button onclick="endSarahChat()" style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(255,68,68,0.1);color:#ff4444;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(255,68,68,0.3);cursor:none;transition:all 0.3s;">
+                ■ End Chat
+              </button>
+            </div>
+            <iframe
+              id="sarahIframe"
+              src=""
+              data-src="https://agency-1inih2.chat-dash.com/iframe/699fe78ce59be6ad60f2c835"
+              style="width:100%;height:calc(100% - 41px);border:none;"
+              allow="microphone"
+            ></iframe>
+          </div>
+          <p style="font-size:10px;color:var(--muted);margin-top:10px;font-family:'Space Mono',monospace;letter-spacing:1px;">🎤 Allow microphone in browser for voice interaction</p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- RHEA PAGE MODAL -->
+<div id="rheaPageOverlay" style="display:none;position:fixed;inset:0;z-index:2000;background:var(--bg);overflow-y:auto;">
+  <div style="max-width:960px;margin:0 auto;padding:60px 40px 100px;">
+
+    <!-- Back Button -->
+    <button onclick="closeRheaPage()" style="display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;cursor:none;margin-bottom:48px;transition:all 0.3s;" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+      ← Back to Portfolio
+    </button>
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;">
+      <span style="font-size:42px;">🎬</span>
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;">PROJECT 01</div>
+        <h1 style="font-size:clamp(32px,5vw,60px);font-weight:800;letter-spacing:-2px;line-height:1;">Rhea — AI Cinema<br><span style="background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Voice Booking</span></h1>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px;">
+      <span style="padding:4px 12px;background:rgba(0,245,160,0.08);border:1px solid rgba(0,245,160,0.25);font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;">n8n</span>
+      <span style="padding:4px 12px;background:rgba(0,245,160,0.08);border:1px solid rgba(0,245,160,0.25);font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;">Google Gemini</span>
+      <span style="padding:4px 12px;background:rgba(0,245,160,0.08);border:1px solid rgba(0,245,160,0.25);font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;">WhatsApp API</span>
+      <span style="padding:4px 12px;background:rgba(0,245,160,0.08);border:1px solid rgba(0,245,160,0.25);font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;">Gmail API</span>
+      <span style="padding:4px 12px;background:rgba(123,97,255,0.08);border:1px solid rgba(123,97,255,0.25);font-family:'Space Mono',monospace;font-size:9px;color:var(--accent2);letter-spacing:1px;text-transform:uppercase;">Voice AI</span>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:48px;">
+
+      <!-- Left: Info -->
+      <div>
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:14px;color:var(--text);">What is Rhea?</h2>
+        <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:20px;">Rhea is a fully conversational AI cinema booking assistant. She recommends movies based on your mood, collects your booking details through natural dialogue, auto-allocates seats, and sends confirmation via WhatsApp & Gmail — all without any human in the loop.</p>
+
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:14px;color:var(--text);">How It Works</h2>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);background:rgba(0,245,160,0.08);border:1px solid rgba(0,245,160,0.2);padding:4px 8px;flex-shrink:0;">01</span>
+            <p style="font-size:13px;color:var(--muted);line-height:1.7;margin:0;"><strong style="color:var(--text);">Mood-Based Recommendations</strong> — Rhea asks how you're feeling and suggests movies tailored to your vibe.</p>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);background:rgba(0,245,160,0.08);border:1px solid rgba(0,245,160,0.2);padding:4px 8px;flex-shrink:0;">02</span>
+            <p style="font-size:13px;color:var(--muted);line-height:1.7;margin:0;"><strong style="color:var(--text);">Natural Dialogue Booking</strong> — She collects name, date, time, and seat count through a casual conversation.</p>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);background:rgba(0,245,160,0.08);border:1px solid rgba(0,245,160,0.2);padding:4px 8px;flex-shrink:0;">03</span>
+            <p style="font-size:13px;color:var(--muted);line-height:1.7;margin:0;"><strong style="color:var(--text);">Auto Seat Allocation</strong> — Logic auto-assigns available seats from a Google Sheets database.</p>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);background:rgba(0,245,160,0.08);border:1px solid rgba(0,245,160,0.2);padding:4px 8px;flex-shrink:0;">04</span>
+            <p style="font-size:13px;color:var(--muted);line-height:1.7;margin:0;"><strong style="color:var(--text);">Dual Confirmation</strong> — Booking confirmed instantly via WhatsApp message + Gmail email.</p>
+          </div>
+        </div>
+
+        <!-- Impact Stats -->
+        <div style="display:flex;gap:24px;padding:20px;background:var(--card);border:1px solid var(--border);margin-bottom:20px;">
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--accent);">100%</div>
+            <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Automated</div>
+          </div>
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--accent);">0</div>
+            <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Manual Steps</div>
+          </div>
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--accent);">∞</div>
+            <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Scalable</div>
+          </div>
+        </div>
+
+        <a href="https://github.com/Gurpreet7999/ai-cinema-voice-booking-agent" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:transparent;color:var(--text);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border:1px solid var(--border);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:all 0.3s;">⌨ View on GitHub →</a>
+      </div>
+
+      <!-- Right: Chat Widget -->
+      <div>
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:8px;color:var(--text);">Talk to Rhea Live</h2>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6;">Experience Rhea firsthand — ask her for a movie recommendation or try booking a ticket right here.</p>
+
+        <!-- PREVIEW STATE (shown before chat starts) -->
+        <div id="rheaPreview" style="border:1px solid rgba(0,245,160,0.2);background:var(--card);padding:36px 28px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:340px;text-align:center;position:relative;overflow:hidden;">
+          <!-- Glow bg -->
+          <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 30%, rgba(0,245,160,0.06) 0%, transparent 70%);pointer-events:none;"></div>
+          <!-- Icon -->
+          <div style="width:72px;height:72px;border-radius:50%;background:rgba(0,245,160,0.08);border:1px solid rgba(0,245,160,0.25);display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:20px;position:relative;z-index:1;">🎬</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;position:relative;z-index:1;">AI VOICE ASSISTANT</div>
+          <div style="font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px;position:relative;z-index:1;">Rhea</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;max-width:260px;margin-bottom:28px;position:relative;z-index:1;">Your AI cinema booking assistant — recommends movies by mood & books tickets instantly.</div>
+
+          <!-- Mic warning note -->
+          <div style="display:flex;align-items:center;gap:8px;background:rgba(0,245,160,0.05);border:1px solid rgba(0,245,160,0.15);padding:10px 14px;margin-bottom:24px;position:relative;z-index:1;width:100%;max-width:320px;justify-content:center;">
+            <div id="rheaMicIcon" style="position:relative;cursor:none;">
+              <span style="font-size:16px;">🎤</span>
+              <!-- Tooltip -->
+              <div id="rheaMicTooltip" style="display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a0a0a;border:1px solid #ff4444;color:#ff4444;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;padding:6px 10px;white-space:nowrap;z-index:10;pointer-events:none;">
+                ⚠ Enable your web mic to talk
+                <div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #ff4444;"></div>
+              </div>
+            </div>
+            <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;">Voice enabled — mic required</span>
+          </div>
+
+          <!-- CTA Buttons -->
+          <div style="display:flex;gap:12px;position:relative;z-index:1;flex-wrap:wrap;justify-content:center;">
+            <button id="rheaStartBtn" onclick="startRheaChat()" style="display:flex;align-items:center;gap:8px;padding:12px 26px;background:var(--accent);color:#000;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);cursor:none;transition:all 0.3s;">
+              <span>▶</span> Start Chat
+            </button>
+            <button onclick="closeRheaPage()" style="padding:12px 20px;background:transparent;color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--border);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);cursor:none;transition:all 0.3s;">
+              Cancel
+            </button>
+          </div>
+        </div>
+
+        <!-- ACTIVE CHAT STATE (shown after Start Chat) -->
+        <div id="rheaChatActive" style="display:none;">
+          <div style="border:1px solid rgba(0,245,160,0.3);background:var(--card);overflow:hidden;height:480px;position:relative;">
+            <!-- Top bar -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(0,245,160,0.06);border-bottom:1px solid rgba(0,245,160,0.15);">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="display:inline-block;width:8px;height:8px;background:var(--accent);border-radius:50%;box-shadow:0 0 6px var(--accent);animation:rheaPulse 1.5s ease-in-out infinite;"></span>
+                <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:2px;">RHEA — LIVE</span>
+              </div>
+              <button onclick="endRheaChat()" style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(255,68,68,0.1);color:#ff4444;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(255,68,68,0.3);cursor:none;transition:all 0.3s;">
+                ■ End Chat
+              </button>
+            </div>
+            <iframe
+              id="rheaIframe"
+              src=""
+              data-src="https://agency-1inih2.chat-dash.com/iframe/699fe9dce59be6ad60f2ed21"
+              style="width:100%;height:calc(100% - 41px);border:none;"
+              allow="microphone"
+            ></iframe>
+          </div>
+          <p style="font-size:10px;color:var(--muted);margin-top:10px;font-family:'Space Mono',monospace;letter-spacing:1px;">🎤 Allow microphone in browser for voice interaction</p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">Gurpreet Singh · AI Developer · Delhi, India</div>
   <div class="footer-copy">© 2025 — Built with precision</div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── CURSOR ──
 const cursor = document.getElementById('cursor');
 const follower = document.getElementById('cursorFollower');
@@ -702,12 +997,118 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 window.addEventListener('scroll', () => {
   let current = '';
   document.querySelectorAll('section[id], div[id]').forEach(s => {
-    if (window.scrollY >= s.offsetTop - 110) current = s.id;
+    if (window.pageYOffset >= s.offsetTop - 140) current = s.id;
   });
   document.querySelectorAll('.nav-links a').forEach(a => {
-    a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+    a.style.color = '';
+    if (a.getAttribute('href') === '#' + current) a.style.color = 'var(--accent)';
   });
 });
+
+// ── RHEA PAGE ──
+function openRheaPage() {
+  const overlay = document.getElementById('rheaPageOverlay');
+  overlay.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  // Reset to preview state each time page opens
+  document.getElementById('rheaPreview').style.display = 'flex';
+  document.getElementById('rheaChatActive').style.display = 'none';
+  const iframe = document.getElementById('rheaIframe');
+  iframe.src = '';
+}
+
+function closeRheaPage() {
+  document.getElementById('rheaPageOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+  // Reset state
+  document.getElementById('rheaPreview').style.display = 'flex';
+  document.getElementById('rheaChatActive').style.display = 'none';
+  document.getElementById('rheaIframe').src = '';
+}
+
+function startRheaChat() {
+  document.getElementById('rheaPreview').style.display = 'none';
+  document.getElementById('rheaChatActive').style.display = 'block';
+  // Lazy-load iframe only now
+  const iframe = document.getElementById('rheaIframe');
+  if (!iframe.src || iframe.src === window.location.href || iframe.src === '') {
+    iframe.src = iframe.getAttribute('data-src');
+  }
+}
+
+function endRheaChat() {
+  document.getElementById('rheaIframe').src = '';
+  document.getElementById('rheaChatActive').style.display = 'none';
+  document.getElementById('rheaPreview').style.display = 'flex';
+}
+
+// ── SARAH PAGE ──
+function openSarahPage() {
+  const overlay = document.getElementById('sarahPageOverlay');
+  overlay.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  // Reset to preview state each time page opens
+  document.getElementById('sarahPreview').style.display = 'flex';
+  document.getElementById('sarahChatActive').style.display = 'none';
+  const iframe = document.getElementById('sarahIframe');
+  iframe.src = '';
+}
+
+function closeSarahPage() {
+  document.getElementById('sarahPageOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+  // Reset state
+  document.getElementById('sarahPreview').style.display = 'flex';
+  document.getElementById('sarahChatActive').style.display = 'none';
+  document.getElementById('sarahIframe').src = '';
+}
+
+function startSarahChat() {
+  document.getElementById('sarahPreview').style.display = 'none';
+  document.getElementById('sarahChatActive').style.display = 'block';
+  // Lazy-load iframe only now
+  const iframe = document.getElementById('sarahIframe');
+  if (!iframe.src || iframe.src === window.location.href || iframe.src === '') {
+    iframe.src = iframe.getAttribute('data-src');
+  }
+}
+
+function endSarahChat() {
+  document.getElementById('sarahIframe').src = '';
+  document.getElementById('sarahChatActive').style.display = 'none';
+  document.getElementById('sarahPreview').style.display = 'flex';
+}
+
+// ── MIC TOOLTIP HOVER (Rhea) ──
+const rheaMicIcon = document.getElementById('rheaMicIcon');
+const rheaMicTooltip = document.getElementById('rheaMicTooltip');
+if (rheaMicIcon) {
+  rheaMicIcon.addEventListener('mouseenter', () => rheaMicTooltip.style.display = 'block');
+  rheaMicIcon.addEventListener('mouseleave', () => rheaMicTooltip.style.display = 'none');
+  rheaMicIcon.addEventListener('click', () => {
+    rheaMicTooltip.style.display = rheaMicTooltip.style.display === 'block' ? 'none' : 'block';
+  });
+}
+
+// ── MIC TOOLTIP HOVER (Sarah) ──
+const sarahMicIcon = document.getElementById('sarahMicIcon');
+const sarahMicTooltip = document.getElementById('sarahMicTooltip');
+if (sarahMicIcon) {
+  sarahMicIcon.addEventListener('mouseenter', () => sarahMicTooltip.style.display = 'block');
+  sarahMicIcon.addEventListener('mouseleave', () => sarahMicTooltip.style.display = 'none');
+  sarahMicIcon.addEventListener('click', () => {
+    sarahMicTooltip.style.display = sarahMicTooltip.style.display === 'block' ? 'none' : 'block';
+  });
+}
+
+// ── ESC KEY ──
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (document.getElementById('rheaPageOverlay').style.display === 'block') closeRheaPage();
+    if (document.getElementById('sarahPageOverlay').style.display === 'block') closeSarahPage();
+  }
+});
+
 </script>
 </body>
 </html>
