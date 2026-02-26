@@ -60,7 +60,7 @@
   .form-submit:hover { background: #fff; transform: translateY(-2px); }
 
   /* HERO */
-  #hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 60px 60px; position: relative; overflow: hidden; }
+  #hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 60px 60px; position: relative; overflow: visible; }
   .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,245,160,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,245,160,0.03) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; }
   .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,245,160,0.08) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; animation: pulseGlow 4s ease-in-out infinite; }
   @keyframes pulseGlow { 0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 1; } 50% { transform: translate(-50%,-50%) scale(1.15); opacity: 0.7; } }
@@ -68,7 +68,7 @@
   .hero-label { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; }
   .hero-label::before { content: ''; width: 40px; height: 1px; background: var(--accent); }
   .hero-name { font-size: clamp(56px, 8vw, 118px); font-weight: 800; line-height: 0.92; letter-spacing: -3px; margin-bottom: 28px; opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
-  .hero-name span { display: block; background: linear-gradient(135deg, #fff 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-name span { display: visible; background: linear-gradient(135deg, #fff 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
   /* TYPEWRITER */
   .hero-sub { font-size: clamp(13px, 1.5vw, 17px); color: var(--muted); max-width: 560px; line-height: 1.85; margin-bottom: 48px; font-weight: 400; min-height: 80px; opacity: 0; animation: fadeUp 0.6s ease 0.7s forwards; }
@@ -235,6 +235,9 @@
     .form-row { grid-template-columns: 1fr; }
     .scroll-indicator { display: none; }
     .upcoming-section { padding: 0 24px 80px; }
+    .hero-name {
+    font-size: clamp(40px, 9vw, 64px);
+    letter-spacing: -1.5px;
   }
 </style>
 </head>
