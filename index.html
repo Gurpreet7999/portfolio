@@ -1369,7 +1369,6 @@ document.addEventListener('keydown', e => {
 </div>
 <script>
 (function(){
-  var K='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',M='llama-3.1-8b-instant';
   var S='You are a smart friendly AI assistant on Gurpreet Singh portfolio website. Help visitors learn about Gurpreet his projects skills and how to hire him.\n\nABOUT: Gurpreet Singh, Delhi India. AI Automation and Conversational Agent Developer. Data Science Intern Sabudh Foundation July 2025 present. BCA Maharaja Agrasen International College Raipur 2022-2025 CGPA 7.0. Email gpssingh277@gmail.com Phone +91 7999 386 243. LinkedIn https://linkedin.com/in/gurpreet-singh-21684a30a GitHub https://github.com/Gurpreet7999 Portfolio https://auto-flow79.vercel.app\n\nPROJECTS: 1 Rhea AI Cinema Voice Booking mood-based movies books tickets WhatsApp Gmail 100% automated github.com/Gurpreet7999/ai-cinema-voice-booking-agent. 2 Sarah AI Dental Voice Assistant 24/7 queries booking WhatsApp SaaS 70% fewer missed calls github.com/Gurpreet7999/ai-dental-voice-assistant. 3 AI Lead Intelligence 500+ B2B leads Google Maps Sheets 80% less time github.com/Gurpreet7999/ai-lead-generation-system. 4 RAG Chatbot vector search Gemini. 5 Titanic ML EDA ensemble classifiers. UPCOMING Multi-Agent Orchestration Personal AI Super-Assistant.\n\nSKILLS: Python SQL n8n Gemini API Voice AI Pandas NumPy Scikit-learn WhatsApp API Gmail API REST APIs GitHub.\n\nHIRING: Open freelance voice AI chatbots automation lead gen. Contact gpssingh277@gmail.com +91 7999 386 243.\n\nSTYLE: Concise friendly. Hinglish if user writes Hindi otherwise English. Max 120 words. Never invent info.';
   var open=false,hist=[],busy=false,init=false;
   window.cbToggle=function(){
@@ -1393,11 +1392,11 @@ document.addEventListener('keydown', e => {
   window.cbSend=function(){
     var inp=document.getElementById('cb-inp'),t=inp.value.trim();
     if(!t||busy)return;inp.value='';busy=true;cbAdd('u',t);cbTyp(true);
-    fetch('https://api.groq.com/openai/v1/chat/completions',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+K},
-      body:JSON.stringify({model:M,max_tokens:250,temperature:0.7,messages:[{role:'system',content:S}].concat(hist.slice(-12))})
-    }).then(function(r){return r.json();}).then(function(d){
+    fetch('/api/chat',{
+  method:'POST',
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({messages:[{role:'system',content:S}].concat(hist.slice(-12))})
+}).then(function(r){return r.json();}).then(function(d){
       cbTyp(false);
       cbAdd('b',d.choices&&d.choices[0]?d.choices[0].message.content:'Issue aa gaya. Contact: gpssingh277@gmail.com');
       busy=false;
