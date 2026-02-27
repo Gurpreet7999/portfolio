@@ -219,12 +219,20 @@
   @keyframes rheaPulse { 0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--accent); } 50% { opacity: 0.4; box-shadow: 0 0 12px var(--accent); } }
   @keyframes sarahPulse { 0%, 100% { opacity: 1; box-shadow: 0 0 6px #7b61ff; } 50% { opacity: 0.4; box-shadow: 0 0 12px #7b61ff; } }
 
-  /* RESPONSIVE */
+  /* ══ RESPONSIVE — MOBILE FIRST FIX ══ */
+
+  /* Prevent ALL horizontal overflow at root level */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  /* Tablet */
   @media (max-width: 900px) {
     nav { padding: 13px 20px; }
     .nav-links { display: none; }
-    #hero { padding: 100px 24px 60px; }
-    section { padding: 80px 24px; }
+    #hero { padding: 100px 24px 60px; overflow: hidden; }
+    section { padding: 80px 24px; max-width: 100%; }
     .hero-stats { display: none; }
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
     .projects-grid { flex-direction: column; height: auto; }
@@ -238,10 +246,203 @@
     .form-row { grid-template-columns: 1fr; }
     .scroll-indicator { display: none; }
     .upcoming-section { padding: 0 24px 80px; }
-    .hero-name {
-    font-size: clamp(40px, 9vw, 64px);
-    letter-spacing: -1.5px;
+    .hero-name { font-size: clamp(38px, 9vw, 64px); letter-spacing: -1.5px; }
+    /* Hero glow — too large causes overflow */
+    .hero-glow { width: 300px; height: 300px; }
+    /* Projects section full width */
+    #projects { padding-left: 24px !important; padding-right: 24px !important; }
+    .projects-grid { max-width: 100% !important; }
+    .upcoming-section { max-width: 100%; padding-left: 24px; padding-right: 24px; }
   }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    /* Nav */
+    nav { padding: 12px 16px; }
+    .logo-text { font-size: 11px; }
+    .btn-hire { padding: 9px 18px; font-size: 10px; }
+
+    /* Hero */
+    #hero { padding: 90px 16px 50px; min-height: 100svh; }
+    .hero-name { font-size: clamp(36px, 11vw, 52px); letter-spacing: -1px; margin-bottom: 20px; }
+    .hero-label { font-size: 9px; letter-spacing: 2px; margin-bottom: 18px; }
+    .hero-sub { font-size: 13px; line-height: 1.75; margin-bottom: 32px; min-height: unset; }
+    .hero-cta { gap: 10px; }
+    .btn-primary, .btn-outline { padding: 12px 22px; font-size: 10px; letter-spacing: 1.5px; }
+    .hero-glow { width: 200px; height: 200px; animation: none; }
+    .hero-grid { display: none; } /* grid lines cause repaint lag on mobile */
+
+    /* Stats — show on mobile as horizontal row */
+    .hero-stats {
+      display: flex !important;
+      position: static;
+      transform: none;
+      flex-direction: row;
+      justify-content: space-around;
+      gap: 0;
+      width: 100%;
+      margin-top: 32px;
+      animation: none;
+      opacity: 1;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+    }
+    .stat-item { text-align: center; }
+    .stat-num-wrap { font-size: 28px; justify-content: center; }
+    .stat-label { font-size: 8px; }
+    .stat-symbol { opacity: 1; transform: none; }
+
+    /* Sections */
+    section { padding: 60px 16px; }
+    .section-header { margin-bottom: 40px; gap: 12px; }
+    .section-title { font-size: clamp(28px, 8vw, 44px); letter-spacing: -1px; }
+
+    /* About */
+    .about-grid { gap: 28px; }
+    .about-text p { font-size: 14px; }
+    .stack-category { padding: 16px; }
+
+    /* Projects */
+    #projects { padding-left: 16px !important; padding-right: 16px !important; }
+    .projects-grid { gap: 8px; }
+    .project-card { padding: 20px; }
+    .project-desc { font-size: 12px; }
+    .upcoming-section { padding: 0 16px 60px; }
+    .upcoming-card { padding: 24px; }
+    .upcoming-title { font-size: 17px; }
+
+    /* Experience */
+    .exp-item { padding: 28px 0 28px 32px; }
+    .exp-title { font-size: 18px; }
+    .exp-points li { font-size: 12px; }
+
+    /* Contact */
+    #contact { padding: 60px 16px; }
+    .contact-heading { font-size: clamp(28px, 8vw, 48px); }
+    .contact-inner { gap: 28px; }
+
+    /* Footer */
+    footer { padding: 24px 16px; font-size: 9px; }
+
+    /* Marquee — reduce animation complexity */
+    .marquee-track { animation-duration: 30s; }
+
+    /* Rhea/Sarah page overlays */
+    #rheaPageOverlay > div,
+    #sarahPageOverlay > div { padding: 40px 16px 80px; }
+    #rheaPageOverlay .grid-2col,
+    #sarahPageOverlay .grid-2col { grid-template-columns: 1fr !important; }
+
+    /* Chatbot */
+    #cb-win { width: calc(100vw - 20px); right: 10px; bottom: 86px; height: 420px; }
+    #cb-btn { bottom: 16px; right: 16px; width: 52px; height: 52px; }
+  }
+
+  /* Extra small phones */
+  @media (max-width: 380px) {
+    .hero-name { font-size: 32px; }
+    .btn-primary, .btn-outline { padding: 10px 16px; font-size: 9px; }
+    .stat-num-wrap { font-size: 22px; }
+  }
+
+  /* ── MOBILE PERFORMANCE ── */
+  @media (max-width: 600px) {
+    /* Reduce animation load on mobile */
+    .project-card { transition: none; }
+    .project-card:hover::after { display: none; }
+    .cursor, .cursor-follower { display: none; } /* cursor meaningless on touch */
+    * { -webkit-tap-highlight-color: transparent; }
+    body { cursor: auto; }
+    .btn-primary, .btn-outline, .btn-hire, .project-link,
+    .contact-link, .bchip, .cb-chip { cursor: pointer; }
+  }
+
+
+  /* ── MOBILE PERFORMANCE ── */
+  @media (max-width: 600px) {
+    /* Reduce animation load on mobile */
+    .project-card { transition: none; }
+    .project-card:hover::after { display: none; }
+    .cursor, .cursor-follower { display: none; } /* cursor meaningless on touch */
+    * { -webkit-tap-highlight-color: transparent; }
+    body { cursor: auto; }
+    .btn-primary, .btn-outline, .btn-hire, .project-link,
+    .contact-link, .bchip, .cb-chip { cursor: pointer; }
+  }
+
+
+  /* ── CHATBOT WIDGET ── */
+  #cb-btn {
+    position: fixed !important;
+    bottom: 28px !important;
+    right: 28px !important;
+    z-index: 2147483647 !important;
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,245,160,0.5);
+    background: #0a1a0e;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+    animation: cbPulse 2.5s ease-in-out infinite;
+    transition: transform 0.2s;
+  }
+  #cb-btn:hover { transform: scale(1.08); }
+  @keyframes cbPulse {
+    0%,100% { box-shadow: 0 4px 20px rgba(0,0,0,0.7), 0 0 0 0 rgba(0,245,160,0.35); }
+    50%      { box-shadow: 0 4px 20px rgba(0,0,0,0.7), 0 0 0 10px rgba(0,245,160,0); }
+  }
+  #cb-win {
+    position: fixed !important;
+    bottom: 100px !important;
+    right: 28px !important;
+    z-index: 2147483647 !important;
+    width: 340px; height: 480px;
+    background: #0d0d14;
+    border: 1px solid rgba(0,245,160,0.25);
+    border-radius: 6px;
+    display: none; flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.9);
+  }
+  #cb-win.cb-open { display: flex; }
+  #cb-head {
+    padding: 12px 16px;
+    background: rgba(0,245,160,0.07);
+    border-bottom: 1px solid rgba(0,245,160,0.12);
+    display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+  }
+  #cb-head-l { display: flex; align-items: center; gap: 10px; }
+  #cb-live { width:7px; height:7px; border-radius:50%; background:#00f5a0; display:inline-block; margin-right:5px; animation: cbDot 1.5s ease-in-out infinite; }
+  @keyframes cbDot { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+  #cb-title { font-family:'Space Mono',monospace; font-size:11px; color:#00f5a0; letter-spacing:2px; text-transform:uppercase; }
+  #cb-sub   { font-family:'Space Mono',monospace; font-size:9px; color:#6b6b88; letter-spacing:1px; }
+  #cb-close { background:none; border:none; color:#6b6b88; font-size:16px; cursor:pointer; padding:2px 6px; transition:color 0.2s; }
+  #cb-close:hover { color:#00f5a0; }
+  #cb-msgs { flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:9px; }
+  .cb-m { max-width:88%; }
+  .cb-m.cb-b { align-self:flex-start; }
+  .cb-m.cb-u { align-self:flex-end; }
+  .cb-bbl { padding:9px 13px; font-family:'Syne',sans-serif; font-size:12px; line-height:1.6; }
+  .cb-b .cb-bbl { background:#0d0d18; border:1px solid #1a1a2e; color:#e8e8f0; border-radius:2px 10px 10px 10px; }
+  .cb-u .cb-bbl { background:rgba(0,245,160,0.1); border:1px solid rgba(0,245,160,0.2); color:#e8e8f0; border-radius:10px 10px 2px 10px; }
+  #cb-typing span { display:inline-block; width:6px; height:6px; border-radius:50%; background:#00f5a0; opacity:0.3; margin:0 2px; animation:cbDots 1.2s ease-in-out infinite; }
+  #cb-typing span:nth-child(2){animation-delay:.2s;} #cb-typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes cbDots { 0%,100%{opacity:0.3;transform:translateY(0);} 50%{opacity:1;transform:translateY(-3px);} }
+  #cb-chips { display:flex; flex-wrap:wrap; gap:5px; padding:0 12px 10px; flex-shrink:0; }
+  .cb-chip { padding:4px 9px; background:rgba(0,245,160,0.05); border:1px solid rgba(0,245,160,0.2); color:#00f5a0; font-family:'Space Mono',monospace; font-size:9px; letter-spacing:1px; cursor:pointer; transition:background 0.2s; border-radius:2px; }
+  .cb-chip:hover { background:rgba(0,245,160,0.12); }
+  #cb-row { padding:10px 12px; border-top:1px solid rgba(0,245,160,0.1); display:flex; gap:7px; align-items:center; flex-shrink:0; background:rgba(0,0,0,0.3); }
+  #cb-inp { flex:1; background:#0d0d18; border:1px solid #1a1a2e; color:#e8e8f0; font-family:'Syne',sans-serif; font-size:12px; padding:8px 11px; outline:none; border-radius:3px; transition:border-color 0.2s; }
+  #cb-inp:focus { border-color:rgba(0,245,160,0.4); }
+  #cb-inp::placeholder { color:#6b6b88; }
+  #cb-send { width:32px; height:32px; background:#00f5a0; border:none; border-radius:3px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:background 0.2s; }
+  #cb-send:hover { background:#fff; }
+  #cb-send svg { width:13px; height:13px; }
+  @keyframes cbEye { 0%,88%,100%{transform:scaleY(1);} 93%{transform:scaleY(0.1);} }
+  .cb-eye { animation:cbEye 3.5s ease-in-out infinite; transform-origin:center; }
+  .cb-eye:nth-child(2) { animation-delay:0.15s; }
+
 </style>
 </head>
 <body>
@@ -1110,5 +1311,103 @@ document.addEventListener('keydown', e => {
 });
 
 </script>
+<!-- CHATBOT -->
+<button id="cb-btn" onclick="cbToggle()">
+  <svg width="36" height="36" viewBox="0 0 42 42" fill="none">
+    <line x1="21" y1="1.5" x2="21" y2="7" stroke="#00f5a0" stroke-width="1.4" stroke-linecap="round"/>
+    <circle cx="21" cy="1" r="1.3" fill="#00f5a0"/>
+    <rect x="8" y="7" width="26" height="21" rx="6" fill="url(#cbg1)"/>
+    <rect x="11" y="10" width="20" height="13" rx="3" fill="#030b05"/>
+    <g class="cb-eye"><rect x="14" y="14" width="5" height="4.5" rx="1.5" fill="#00f5a0"/><rect x="15.2" y="15" width="1.8" height="1.8" rx="0.4" fill="rgba(255,255,255,0.5)"/></g>
+    <g class="cb-eye"><rect x="23" y="14" width="5" height="4.5" rx="1.5" fill="#00f5a0"/><rect x="24.2" y="15" width="1.8" height="1.8" rx="0.4" fill="rgba(255,255,255,0.5)"/></g>
+    <path d="M15.5 21.5 Q21 25.5 26.5 21.5" stroke="#00f5a0" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+    <rect x="18.5" y="28" width="5" height="3" rx="1" fill="#0d1a10"/>
+    <rect x="12" y="31" width="18" height="7" rx="3.5" fill="url(#cbg2)"/>
+    <circle cx="21" cy="34.5" r="1" fill="#00f5a0" opacity="0.55"/>
+    <circle cx="8.5" cy="16.5" r="1.8" fill="#080f09" stroke="#00f5a055" stroke-width="0.6"/>
+    <circle cx="33.5" cy="16.5" r="1.8" fill="#080f09" stroke="#00f5a055" stroke-width="0.6"/>
+    <defs>
+      <linearGradient id="cbg1" x1="8" y1="7" x2="34" y2="28" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1e4028"/><stop offset="100%" stop-color="#0a1a0e"/></linearGradient>
+      <linearGradient id="cbg2" x1="12" y1="31" x2="30" y2="38" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#172d1d"/><stop offset="100%" stop-color="#0a1a0e"/></linearGradient>
+    </defs>
+  </svg>
+</button>
+<div id="cb-win">
+  <div id="cb-head">
+    <div id="cb-head-l">
+      <svg width="22" height="22" viewBox="0 0 42 42" fill="none">
+        <rect x="8" y="7" width="26" height="21" rx="6" fill="url(#cbhg)"/>
+        <rect x="11" y="10" width="20" height="13" rx="3" fill="#030b05"/>
+        <rect x="14" y="14" width="5" height="4.5" rx="1.5" fill="#00f5a0"/>
+        <rect x="23" y="14" width="5" height="4.5" rx="1.5" fill="#00f5a0"/>
+        <path d="M15.5 21.5 Q21 25.5 26.5 21.5" stroke="#00f5a0" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+        <defs><linearGradient id="cbhg" x1="8" y1="7" x2="34" y2="28" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1e4028"/><stop offset="100%" stop-color="#0a1a0e"/></linearGradient></defs>
+      </svg>
+      <div>
+        <div id="cb-title"><span id="cb-live"></span>Chat Agent</div>
+        <div id="cb-sub">Ask me about Gurpreet</div>
+      </div>
+    </div>
+    <button id="cb-close" onclick="cbToggle()">&#x2715;</button>
+  </div>
+  <div id="cb-msgs">
+    <div id="cb-typing" class="cb-m cb-b" style="display:none;"><div class="cb-bbl"><span></span><span></span><span></span></div></div>
+  </div>
+  <div id="cb-chips">
+    <button class="cb-chip" onclick="cbChip('Tell me about Rhea project')">&#127916; Rhea</button>
+    <button class="cb-chip" onclick="cbChip('Tell me about Sarah project')">&#129463; Sarah</button>
+    <button class="cb-chip" onclick="cbChip('What are your skills?')">&#9889; Skills</button>
+    <button class="cb-chip" onclick="cbChip('I want to hire Gurpreet')">&#128188; Hire</button>
+    <button class="cb-chip" onclick="cbChip('GitHub and LinkedIn links')">&#128279; Links</button>
+  </div>
+  <div id="cb-row">
+    <input id="cb-inp" type="text" placeholder="Ask me anything..." autocomplete="off"/>
+    <button id="cb-send" onclick="cbSend()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+<script>
+(function(){
+  var K='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',M='llama-3.1-8b-instant';
+  var S='You are a smart friendly AI assistant on Gurpreet Singh portfolio website. Help visitors learn about Gurpreet his projects skills and how to hire him.\n\nABOUT: Gurpreet Singh, Delhi India. AI Automation and Conversational Agent Developer. Data Science Intern Sabudh Foundation July 2025 present. BCA Maharaja Agrasen International College Raipur 2022-2025 CGPA 7.0. Email gpssingh277@gmail.com Phone +91 7999 386 243. LinkedIn https://linkedin.com/in/gurpreet-singh-21684a30a GitHub https://github.com/Gurpreet7999 Portfolio https://auto-flow79.vercel.app\n\nPROJECTS: 1 Rhea AI Cinema Voice Booking mood-based movies books tickets WhatsApp Gmail 100% automated github.com/Gurpreet7999/ai-cinema-voice-booking-agent. 2 Sarah AI Dental Voice Assistant 24/7 queries booking WhatsApp SaaS 70% fewer missed calls github.com/Gurpreet7999/ai-dental-voice-assistant. 3 AI Lead Intelligence 500+ B2B leads Google Maps Sheets 80% less time github.com/Gurpreet7999/ai-lead-generation-system. 4 RAG Chatbot vector search Gemini. 5 Titanic ML EDA ensemble classifiers. UPCOMING Multi-Agent Orchestration Personal AI Super-Assistant.\n\nSKILLS: Python SQL n8n Gemini API Voice AI Pandas NumPy Scikit-learn WhatsApp API Gmail API REST APIs GitHub.\n\nHIRING: Open freelance voice AI chatbots automation lead gen. Contact gpssingh277@gmail.com +91 7999 386 243.\n\nSTYLE: Concise friendly. Hinglish if user writes Hindi otherwise English. Max 120 words. Never invent info.';
+  var open=false,hist=[],busy=false,init=false;
+  window.cbToggle=function(){
+    open=!open;
+    var w=document.getElementById('cb-win');
+    if(open){w.classList.add('cb-open');if(!init){init=true;cbAdd('b',"Hey! I am Gurpreet's AI Chat Agent. Ask me about his projects, skills, or how to hire him!");}setTimeout(function(){document.getElementById('cb-inp').focus();},150);}
+    else{w.classList.remove('cb-open');}
+  };
+  function cbAdd(r,t){
+    var c=document.getElementById('cb-msgs'),d=document.createElement('div');
+    d.className='cb-m '+(r==='b'?'cb-b':'cb-u');
+    var b=document.createElement('div');b.className='cb-bbl';
+    b.innerHTML=t.replace(/\n/g,'<br>');
+    d.appendChild(b);c.insertBefore(d,document.getElementById('cb-typing'));
+    c.scrollTop=c.scrollHeight;
+    if(r==='u'){document.getElementById('cb-chips').style.display='none';hist.push({role:'user',content:t});}
+    else{hist.push({role:'assistant',content:t});}
+  }
+  function cbTyp(s){document.getElementById('cb-typing').style.display=s?'flex':'none';document.getElementById('cb-msgs').scrollTop=9999;}
+  window.cbChip=function(t){document.getElementById('cb-inp').value=t;cbSend();};
+  window.cbSend=function(){
+    var inp=document.getElementById('cb-inp'),t=inp.value.trim();
+    if(!t||busy)return;inp.value='';busy=true;cbAdd('u',t);cbTyp(true);
+    fetch('https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+K},
+      body:JSON.stringify({model:M,max_tokens:250,temperature:0.7,messages:[{role:'system',content:S}].concat(hist.slice(-12))})
+    }).then(function(r){return r.json();}).then(function(d){
+      cbTyp(false);
+      cbAdd('b',d.choices&&d.choices[0]?d.choices[0].message.content:'Issue aa gaya. Contact: gpssingh277@gmail.com');
+      busy=false;
+    }).catch(function(){cbTyp(false);cbAdd('b','Connection issue. gpssingh277@gmail.com');busy=false;});
+  };
+  document.addEventListener('DOMContentLoaded',function(){
+    document.getElementById('cb-inp').addEventListener('keydown',function(e){if(e.key==='Enter')cbSend();});
+  });
+})();
+</script>
+
 </body>
 </html>
