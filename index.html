@@ -219,21 +219,53 @@
   @keyframes rheaPulse { 0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--accent); } 50% { opacity: 0.4; box-shadow: 0 0 12px var(--accent); } }
   @keyframes sarahPulse { 0%, 100% { opacity: 1; box-shadow: 0 0 6px #7b61ff; } 50% { opacity: 0.4; box-shadow: 0 0 12px #7b61ff; } }
 
-  /* ══ RESPONSIVE — MOBILE FIRST FIX ══ */
+  /* ══ RESPONSIVE — CLEAN & COMPLETE ══ */
 
-  /* Prevent ALL horizontal overflow at root level */
-  html, body {
-    overflow-x: hidden;
-    max-width: 100vw;
+  /* Global: never overflow horizontally */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { overflow-x: hidden; width: 100%; max-width: 100vw; }
+
+  /* Mobile stats strip — hidden on desktop */
+  #mobile-stats-strip {
+    display: none;
+    width: 100%;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .mstat-item { flex: 1; text-align: center; padding: 16px 8px; }
+  .mstat-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 28px; font-weight: 800;
+    color: var(--accent); line-height: 1;
+    display: flex; align-items: baseline;
+    justify-content: center; gap: 1px;
+  }
+  .mstat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px; color: var(--muted);
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-top: 4px;
   }
 
-  /* Tablet */
+  /* ── TABLET ≤900px ── */
   @media (max-width: 900px) {
+    /* Nav */
     nav { padding: 13px 20px; }
     .nav-links { display: none; }
+
+    /* Hero */
     #hero { padding: 100px 24px 60px; overflow: hidden; }
+    .hero-name { font-size: clamp(38px, 9vw, 64px); letter-spacing: -1.5px; }
+    .hero-glow { width: 300px; height: 300px; }
+    .hero-stats { display: none !important; }      /* hide absolute-positioned stats */
+    .scroll-indicator { display: none; }
+
+    /* Show mobile strip */
+    #mobile-stats-strip { display: flex; }
+
+    /* Sections */
     section { padding: 80px 24px; max-width: 100%; }
-    .hero-stats { display: none; }
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
     .projects-grid { flex-direction: column; height: auto; }
     .project-card { flex: none !important; height: auto; }
@@ -244,134 +276,198 @@
     footer { flex-direction: column; gap: 12px; text-align: center; }
     #contact { padding: 80px 24px; }
     .form-row { grid-template-columns: 1fr; }
-    .scroll-indicator { display: none; }
-    .upcoming-section { padding: 0 24px 80px; }
-    .hero-name { font-size: clamp(38px, 9vw, 64px); letter-spacing: -1.5px; }
-    /* Hero glow — too large causes overflow */
-    .hero-glow { width: 300px; height: 300px; }
-    /* Projects section full width */
+    .upcoming-section { padding: 0 24px 80px; max-width: 100%; }
     #projects { padding-left: 24px !important; padding-right: 24px !important; }
     .projects-grid { max-width: 100% !important; }
-    .upcoming-section { max-width: 100%; padding-left: 24px; padding-right: 24px; }
+    .hero-cta { flex-wrap: wrap; gap: 12px; }
   }
 
-  /* Mobile */
+  /* ── MOBILE ≤600px ── */
   @media (max-width: 600px) {
     /* Nav */
     nav { padding: 12px 16px; }
     .logo-text { font-size: 11px; }
-    .btn-hire { padding: 9px 18px; font-size: 10px; }
+    .btn-hire { padding: 8px 14px; font-size: 9px; letter-spacing: 1px; }
 
-    /* Hero */
-    #hero { padding: 90px 16px 50px; min-height: 100svh; }
-    .hero-name { font-size: clamp(36px, 11vw, 52px); letter-spacing: -1px; margin-bottom: 20px; }
-    .hero-label { font-size: 9px; letter-spacing: 2px; margin-bottom: 18px; }
-    .hero-sub { font-size: 13px; line-height: 1.75; margin-bottom: 32px; min-height: unset; }
-    .hero-cta { gap: 10px; }
-    .btn-primary, .btn-outline { padding: 12px 22px; font-size: 10px; letter-spacing: 1.5px; }
-    .hero-glow { width: 200px; height: 200px; animation: none; }
-    .hero-grid { display: none; } /* grid lines cause repaint lag on mobile */
-
-    /* Stats — show on mobile as horizontal row */
-    .hero-stats {
-      display: flex !important;
-      position: static;
-      transform: none;
-      flex-direction: row;
-      justify-content: space-around;
-      gap: 0;
-      width: 100%;
-      margin-top: 32px;
-      animation: none;
-      opacity: 1;
-      padding: 20px 0;
-      border-top: 1px solid var(--border);
+    /* Hero — clean vertical layout */
+    #hero {
+      padding: 72px 16px 36px;
+      min-height: auto;
+      align-items: flex-start;
+      overflow: hidden;
     }
-    .stat-item { text-align: center; }
-    .stat-num-wrap { font-size: 28px; justify-content: center; }
-    .stat-label { font-size: 8px; }
-    .stat-symbol { opacity: 1; transform: none; }
+    .hero-content { width: 100%; max-width: 100%; }
+    .hero-name {
+      font-size: clamp(34px, 10vw, 52px);
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+      line-height: 1;
+    }
+    .hero-label { font-size: 9px; letter-spacing: 2px; margin-bottom: 12px; }
+    .hero-sub { font-size: 13px; line-height: 1.7; margin-bottom: 22px; min-height: unset; }
+    .hero-glow { width: 160px; height: 160px; animation: none !important; }
+    .hero-grid { display: none !important; }
+    .hero-stats { display: none !important; }  /* always use mobile strip */
+
+    /* CTA buttons — vertical, no clip-path clipping */
+    .hero-cta {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      width: 100%;
+    }
+    .btn-primary {
+      padding: 13px 20px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-align: center;
+      display: block;
+      width: 100%;
+    }
+    .btn-outline {
+      padding: 13px 20px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-align: center;
+      display: block;
+      width: 100%;
+    }
+
+    /* Voice Nav button — full width, no clip-path */
+    #vn-btn {
+      width: 100%;
+      padding: 13px 20px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      clip-path: none !important;
+      border-radius: 4px;
+      justify-content: center;
+      display: flex;
+    }
+
+    /* Language row */
+    #vn-lang-row { margin-top: 10px; gap: 8px; justify-content: flex-start; }
+    .vn-lang-btn { padding: 6px 12px; font-size: 9px; border-radius: 3px; }
+
+    /* Mobile stats strip */
+    .mstat-num { font-size: 24px; }
+    .mstat-label { font-size: 7px; }
+    #mobile-stats-strip { display: flex; }
 
     /* Sections */
-    section { padding: 60px 16px; }
-    .section-header { margin-bottom: 40px; gap: 12px; }
-    .section-title { font-size: clamp(28px, 8vw, 44px); letter-spacing: -1px; }
+    section { padding: 48px 16px; }
+    .section-header { margin-bottom: 30px; gap: 10px; }
+    .section-title { font-size: clamp(26px, 7vw, 40px); letter-spacing: -1px; }
 
     /* About */
-    .about-grid { gap: 28px; }
+    .about-grid { gap: 24px; }
     .about-text p { font-size: 14px; }
-    .stack-category { padding: 16px; }
+    .stack-category { padding: 14px; }
 
     /* Projects */
     #projects { padding-left: 16px !important; padding-right: 16px !important; }
-    .projects-grid { gap: 8px; }
-    .project-card { padding: 20px; }
+    .projects-grid { gap: 10px; }
+    .project-card { padding: 18px; transition: none !important; }
+    .project-card:hover::after { display: none !important; }
     .project-desc { font-size: 13px; }
-    .upcoming-section { padding: 0 16px 60px; }
-    .upcoming-card { padding: 24px; }
-    .upcoming-title { font-size: 17px; }
+    .upcoming-section { padding: 0 16px 48px; }
+    .upcoming-card { padding: 20px; }
+    .upcoming-title { font-size: 16px; }
 
     /* Experience */
-    .exp-item { padding: 28px 0 28px 32px; }
-    .exp-title { font-size: 18px; }
+    .exp-item { padding: 22px 0 22px 24px; }
+    .exp-title { font-size: 17px; }
     .exp-points li { font-size: 12px; }
 
     /* Contact */
-    #contact { padding: 60px 16px; }
-    .contact-heading { font-size: clamp(28px, 8vw, 48px); }
-    .contact-inner { gap: 28px; }
+    #contact { padding: 48px 16px; }
+    .contact-heading { font-size: clamp(24px, 7vw, 42px); }
+    .contact-inner { gap: 24px; }
 
     /* Footer */
-    footer { padding: 24px 16px; font-size: 9px; }
+    footer { padding: 20px 16px; font-size: 9px; }
+    .marquee-track { animation-duration: 25s; }
 
-    /* Marquee — reduce animation complexity */
-    .marquee-track { animation-duration: 30s; }
-
-    /* Rhea/Sarah page overlays */
-    #rheaPageOverlay > div,
-    #sarahPageOverlay > div { padding: 40px 16px 80px; }
-    #rheaPageOverlay .grid-2col,
-    #sarahPageOverlay .grid-2col { grid-template-columns: 1fr !important; }
+    /* Rhea/Sarah overlays */
+    #rheaPageOverlay, #sarahPageOverlay {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+    }
+    #rheaPageOverlay > div, #sarahPageOverlay > div {
+      padding: 20px 14px 60px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    #rheaChatActive > div, #sarahChatActive > div {
+      height: min(400px, 58vh) !important;
+    }
 
     /* Chatbot */
-    #cb-win { width: calc(100vw - 20px); right: 10px; bottom: 86px; height: 420px; }
-    #cb-btn { bottom: 16px; right: 16px; width: 52px; height: 52px; }
+    #cb-win {
+      width: calc(100vw - 16px) !important;
+      right: 8px !important;
+      left: 8px !important;
+      bottom: 76px !important;
+      height: min(420px, 68vh) !important;
+    }
+    #cb-btn {
+      bottom: 14px !important;
+      right: 14px !important;
+      width: 48px !important;
+      height: 48px !important;
+      animation: none !important;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.7) !important;
+    }
+
+    /* Voice UI */
+    #va-transcript {
+      bottom: 14px;
+      font-size: 12px;
+      padding: 10px 16px;
+      max-width: 96vw;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    #va-ripple { bottom: 68px; }
+    #va-greeting {
+      padding: 20px 16px;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    #va-greet-icon { width: 52px; height: 52px; font-size: 22px; margin-bottom: 14px; animation: none !important; }
+    #va-greet-text { font-size: clamp(18px, 5vw, 26px); letter-spacing: -0.5px; }
+    #va-greet-sub { font-size: 11px; }
+
+    /* Onboarding */
+    #ob-help-btn { display: none; }
+    #ob-box { padding: 20px 16px; }
+    .ob-step { padding: 12px; }
+
+    /* Performance — kill all heavy effects on mobile */
+    .cursor, .cursor-follower { display: none !important; }
+    * { -webkit-tap-highlight-color: transparent; }
+    body { cursor: auto !important; }
+    button, a, [onclick] { cursor: pointer !important; }
+    @keyframes pulseGlow { 0%,100%{opacity:1;} }
+    @keyframes cbPulse { 0%,100%{ box-shadow: 0 4px 16px rgba(0,0,0,0.7); } }
+    @keyframes vaIconPulse { 0%,100%{box-shadow:none;} }
+    .va-ripple-bar { animation-duration: 1.5s; }
   }
 
-  /* Extra small phones */
+  /* ── SMALL PHONES ≤380px ── */
   @media (max-width: 380px) {
-    .hero-name { font-size: 32px; }
-    .btn-primary, .btn-outline { padding: 10px 16px; font-size: 9px; }
-    .stat-num-wrap { font-size: 22px; }
+    .hero-name { font-size: 30px !important; }
+    .btn-primary, .btn-outline { font-size: 10px; padding: 12px 16px; }
+    #vn-btn { font-size: 10px; padding: 12px 16px; }
+    .mstat-num { font-size: 20px; }
+    .mstat-label { font-size: 6px; }
+    nav { padding: 10px 12px; }
+    .logo-text { font-size: 10px; }
+    .btn-hire { padding: 7px 10px; font-size: 8px; }
+    #cb-btn { width: 42px !important; height: 42px !important; }
   }
 
-  /* ── MOBILE PERFORMANCE ── */
-  @media (max-width: 600px) {
-    /* Reduce animation load on mobile */
-    .project-card { transition: none; }
-    .project-card:hover::after { display: none; }
-    .cursor, .cursor-follower { display: none; } /* cursor meaningless on touch */
-    * { -webkit-tap-highlight-color: transparent; }
-    body { cursor: auto; }
-    .btn-primary, .btn-outline, .btn-hire, .project-link,
-    .contact-link, .bchip, .cb-chip { cursor: pointer; }
-  }
-
-
-  /* ── MOBILE PERFORMANCE ── */
-  @media (max-width: 600px) {
-    /* Reduce animation load on mobile */
-    .project-card { transition: none; }
-    .project-card:hover::after { display: none; }
-    .cursor, .cursor-follower { display: none; } /* cursor meaningless on touch */
-    * { -webkit-tap-highlight-color: transparent; }
-    body { cursor: auto; }
-    .btn-primary, .btn-outline, .btn-hire, .project-link,
-    .contact-link, .bchip, .cb-chip { cursor: pointer; }
-  }
-
-
-  /* ── CHATBOT WIDGET ── */
+    /* ── CHATBOT WIDGET ── */
   #cb-btn {
     position: fixed !important;
     bottom: 28px !important;
@@ -444,63 +540,137 @@
   .cb-eye:nth-child(2) { animation-delay:0.15s; }
 
 
-  /* ═══ VOICE NAVIGATOR ═══ */
+  /* ═══ VOICE ASSISTANT SYSTEM ═══ */
+
+  /* Voice Nav Button in Hero */
   #vn-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    display: inline-flex; align-items: center; gap: 8px;
     padding: 14px 24px;
     background: rgba(123,97,255,0.1);
     border: 1px solid rgba(123,97,255,0.45);
     color: var(--accent2);
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: none;
+    font-family: 'Space Mono', monospace; font-size: 12px;
+    font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer;
     clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
     transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
   }
-  #vn-btn:hover { background: rgba(123,97,255,0.2); border-color: var(--accent2); transform: translateY(-2px); box-shadow: 0 0 20px rgba(123,97,255,0.25); }
+  #vn-btn:hover { background: rgba(123,97,255,0.22); transform: translateY(-2px); box-shadow: 0 0 24px rgba(123,97,255,0.3); }
+  #vn-btn.vn-loading { opacity: 0.6; pointer-events: none; }
   #vn-btn.listening {
-    border-color: #ff4444;
-    background: rgba(255,68,68,0.1);
-    color: #ff4444;
-    animation: vnListen 0.8s ease-in-out infinite;
+    border-color: #ff4444; background: rgba(255,68,68,0.1); color: #ff4444;
+    animation: vnPulse 0.9s ease-in-out infinite;
   }
-  @keyframes vnListen {
-    0%,100% { box-shadow: 0 0 0 0 rgba(255,68,68,0.3); }
-    50%      { box-shadow: 0 0 0 8px rgba(255,68,68,0); }
+  @keyframes vnPulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,68,68,0.35);} 50%{box-shadow:0 0 0 10px rgba(255,68,68,0);} }
+
+  /* Language Toggle */
+  #vn-lang-row {
+    display: flex; gap: 6px; margin-top: 14px;
+    opacity: 0; animation: fadeUp 0.8s ease 1s forwards;
   }
-  @media(max-width:600px){
-    #vn-btn { font-size: 10px; padding: 12px 18px; letter-spacing: 1.5px; }
+  .vn-lang-btn {
+    padding: 5px 12px;
+    font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px;
+    text-transform: uppercase; border: 1px solid var(--border);
+    background: transparent; color: var(--muted); cursor: pointer;
+    transition: all 0.2s; border-radius: 2px;
   }
-  #vn-toast {
-    position: fixed;
-    bottom: 160px;
-    right: 28px;
-    z-index: 2147483646;
-    background: #0d0d18;
-    border: 1px solid rgba(123,97,255,0.3);
-    border-radius: 6px;
-    padding: 10px 14px;
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--text);
-    letter-spacing: 0.5px;
-    max-width: 220px;
-    line-height: 1.5;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: all 0.25s ease;
+  .vn-lang-btn.active { border-color: var(--accent2); color: var(--accent2); background: rgba(123,97,255,0.1); }
+  .vn-lang-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  /* Greeting Overlay — full screen center */
+  #va-greeting {
+    position: fixed; inset: 0; z-index: 8000;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: rgba(5,5,8,0.92);
+    backdrop-filter: blur(8px);
     pointer-events: none;
-    text-align: right;
+    opacity: 0; transition: opacity 0.6s ease;
+    padding: 20px; text-align: center;
   }
-  #vn-toast.show { opacity: 1; transform: translateY(0); }
-  #vn-toast .vn-t-label { font-size: 8px; color: var(--accent2); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  #va-greeting.show { opacity: 1; }
+  #va-greeting.hide { opacity: 0; }
+  #va-greet-icon {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(123,97,255,0.12);
+    border: 2px solid rgba(123,97,255,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; margin-bottom: 24px;
+    animation: vaIconPulse 2s ease-in-out infinite;
+  }
+  @keyframes vaIconPulse {
+    0%,100%{box-shadow:0 0 0 0 rgba(123,97,255,0.3);}
+    50%{box-shadow:0 0 0 16px rgba(123,97,255,0);}
+  }
+  #va-greet-text {
+    font-size: clamp(22px, 5vw, 42px);
+    font-weight: 800; letter-spacing: -1px; line-height: 1.2;
+    color: var(--text); max-width: 600px; margin-bottom: 12px;
+  }
+  #va-greet-text span { color: var(--accent2); }
+  #va-greet-sub {
+    font-family: 'Space Mono', monospace; font-size: clamp(10px,1.5vw,13px);
+    color: var(--muted); letter-spacing: 1px; line-height: 1.8;
+    max-width: 480px; margin-bottom: 28px;
+  }
+  #va-greet-bar {
+    width: 200px; height: 3px;
+    background: var(--border); border-radius: 2px; overflow: hidden;
+  }
+  #va-greet-bar-fill {
+    height: 100%; width: 0%; background: var(--accent2);
+    transition: width linear;
+  }
+
+  /* Live Transcription — center bottom floating */
+  #va-transcript {
+    position: fixed;
+    bottom: 32px; left: 50%; transform: translateX(-50%) translateY(16px);
+    z-index: 7000;
+    background: rgba(13,13,20,0.92);
+    border: 1px solid rgba(123,97,255,0.35);
+    border-radius: 40px;
+    padding: 14px 28px;
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(13px, 2vw, 18px);
+    color: var(--text); letter-spacing: 0.5px;
+    white-space: nowrap; max-width: 90vw;
+    overflow: hidden; text-overflow: ellipsis;
+    opacity: 0; transition: all 0.3s ease;
+    pointer-events: none;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  }
+  #va-transcript.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  #va-transcript .va-t-prefix { color: var(--accent2); margin-right: 8px; font-size: 11px; }
+  #va-transcript .va-t-reply { color: var(--accent); }
+
+  /* Voice ripple when speaking */
+  #va-ripple {
+    position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+    z-index: 6999; display: none;
+    align-items: center; justify-content: center; gap: 4px;
+  }
+  #va-ripple.show { display: flex; }
+  .va-ripple-bar {
+    width: 3px; border-radius: 3px; background: var(--accent2);
+    animation: vaRippleBar 1s ease-in-out infinite;
+  }
+  .va-ripple-bar:nth-child(1){height:8px;animation-delay:0s;}
+  .va-ripple-bar:nth-child(2){height:16px;animation-delay:0.1s;}
+  .va-ripple-bar:nth-child(3){height:24px;animation-delay:0.2s;}
+  .va-ripple-bar:nth-child(4){height:16px;animation-delay:0.3s;}
+  .va-ripple-bar:nth-child(5){height:8px;animation-delay:0.4s;}
+  @keyframes vaRippleBar { 0%,100%{transform:scaleY(0.4);opacity:0.4;} 50%{transform:scaleY(1);opacity:1;} }
+
+  @media(max-width:600px){
+    #vn-btn { font-size: 10px; padding: 11px 16px; letter-spacing: 1.5px; }
+    #va-greet-icon { width: 60px; height: 60px; font-size: 26px; }
+    #va-transcript { font-size: 12px; padding: 10px 20px; bottom: 20px; }
+    #vn-lang-row { gap: 4px; }
+    .vn-lang-btn { padding: 4px 9px; font-size: 8px; }
+  }
 
   /* ═══ ONBOARDING GUIDE ═══ */
   #ob-overlay {
@@ -681,10 +851,15 @@
     <div class="hero-cta">
       <a href="#projects" class="btn-primary">View Projects</a>
       <a href="#contact" class="btn-outline">Get In Touch</a>
-      <button id="vn-btn" onclick="vnToggle()">
+      <button id="vn-btn" onclick="vnToggle()" style="white-space: nowrap; width: auto; min-width: fit-content;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        Voice Nav
+        <span id="vn-btn-label">🎙 Voice Assistant</span>
       </button>
+    </div>
+    <div id="vn-lang-row">
+      <button class="vn-lang-btn active" onclick="vnSetLang('en')" id="vl-en">EN</button>
+      <button class="vn-lang-btn" onclick="vnSetLang('hi')" id="vl-hi">हि</button>
+      <button class="vn-lang-btn" onclick="vnSetLang('hi-en')" id="vl-hien">HI-EN</button>
     </div>
   </div>
 
@@ -708,6 +883,22 @@
     Scroll to explore
   </div>
 </section>
+
+<!-- MOBILE STATS STRIP — shows only on ≤900px -->
+<div id="mobile-stats-strip">
+  <div class="mstat-item">
+    <div class="mstat-num"><span class="stat-counter" id="mc0">6</span><span>+</span></div>
+    <div class="mstat-label">AI Projects</div>
+  </div>
+  <div class="mstat-item">
+    <div class="mstat-num"><span class="stat-counter" id="mc1">80</span><span>%</span></div>
+    <div class="mstat-label">Time Saved</div>
+  </div>
+  <div class="mstat-item">
+    <div class="mstat-num"><span class="stat-counter" id="mc2">5</span><span>+</span></div>
+    <div class="mstat-label">Leads/Session</div>
+  </div>
+</div>
 
 <!-- MARQUEE -->
 <div class="marquee-section">
@@ -1627,8 +1818,8 @@ document.addEventListener('keydown', e => {
 
 <!-- Voice Toast Feedback -->
 <div id="vn-toast">
-  <div class="vn-t-label" id="vn-toast-label">Listening...</div>
-  <div id="vn-toast-text">Say a command</div>
+  <div class="vn-t-label" id="vn-toast-label"></div>
+  <div id="vn-toast-text"></div>
 </div>
 
 <script>
@@ -1661,103 +1852,344 @@ document.addEventListener('keydown', e => {
   });
 })();
 
-// ═══ VOICE NAVIGATOR ═══
+// ═══ VOICE ASSISTANT — ElevenLabs TTS + Web Speech ═══
 (function(){
-  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   var listening = false;
+  var speaking  = false;
+  var greeted   = false;
   var rec;
+  var currentLang = 'en';   // 'en' | 'hi' | 'hi-en'
+  var currentAudio = null;
 
-  var COMMANDS = [
-    { words: ['rhea','cinema','movie','film'],  action: function(){ obClose(); openRheaPage(); } },
-    { words: ['sarah','dental','dentist','clinic'], action: function(){ obClose(); openSarahPage(); } },
-    { words: ['contact','hire','email'],         action: function(){ document.getElementById('contact').scrollIntoView({behavior:'smooth'}); } },
-    { words: ['about'],                          action: function(){ document.getElementById('about').scrollIntoView({behavior:'smooth'}); } },
-    { words: ['project','projects','work'],      action: function(){ document.getElementById('projects').scrollIntoView({behavior:'smooth'}); } },
-    { words: ['top','home','start','hero'],      action: function(){ window.scrollTo({top:0,behavior:'smooth'}); } },
-    { words: ['experience','intern'],            action: function(){ document.getElementById('experience').scrollIntoView({behavior:'smooth'}); } },
-    { words: ['guide','help','how'],             action: function(){ obOpen(); } },
-    { words: ['chat','bot','assistant'],         action: function(){ if(typeof cbToggle==='function') cbToggle(); } },
-  ];
+  // ── Smart name aliases ────────────────────────────────────────────────
+  var ALIASES = {
+    rhea:  ['rhea','ria','riya','reya','rea','rhia','riaa','raea','reha'],
+    sarah: ['sarah','sara','sera','sarra','saara','saraa','zara','sierra']
+  };
 
-  function vnToast(label, text, dur){
-    var t = document.getElementById('vn-toast');
-    document.getElementById('vn-toast-label').textContent = label;
-    document.getElementById('vn-toast-text').textContent  = text;
-    t.classList.add('show');
-    setTimeout(function(){ t.classList.remove('show'); }, dur||2200);
+  function matchAlias(t, key){ return ALIASES[key].some(function(a){ return t.indexOf(a) !== -1; }); }
+
+  // ── Language config ───────────────────────────────────────────────────
+  var LANG_CONFIG = {
+    en: {
+      recLang: 'en-IN',
+      greet:   "Welcome to Gurpreet Singh's portfolio! I'm your voice assistant. You can say: Open Rhea, Open Sarah, Go to Projects, Contact, or About.",
+      micAsk:  "Please enable your microphone to use voice commands.",
+      notUnderstood: "Sorry, I didn't understand. You can say: Open Rhea, Open Sarah, Projects, or Contact.",
+      commands: {
+        rhea:       "Opening Rhea! Gurpreet's AI cinema booking agent.",
+        sarah:      "Opening Sarah! Gurpreet's AI dental voice assistant.",
+        projects:   "Taking you to the projects section!",
+        contact:    "Here's the contact section!",
+        about:      "Here's the about section!",
+        experience: "Here's Gurpreet's experience!",
+        top:        "Going back to the top!",
+        guide:      "Opening the guide!",
+        chat:       "Opening the chat assistant!"
+      }
+    },
+    hi: {
+      recLang: 'hi-IN',
+      greet:   "Gurpreet Singh ke portfolio mein aapka swagat hai! Main aapka voice assistant hoon. Aap keh sakte hain: Rhea kholein, Sarah kholein, Projects, Contact ya About.",
+      micAsk:  "Kripya apna microphone enable karein.",
+      notUnderstood: "Samajh nahi aaya. Aap keh sakte hain: Rhea kholein, Sarah kholein, Projects ya Contact.",
+      commands: {
+        rhea:       "Rhea khol raha hoon! Gurpreet ka AI cinema booking agent.",
+        sarah:      "Sarah khol raha hoon! Gurpreet ka AI dental assistant.",
+        projects:   "Projects section mein le ja raha hoon!",
+        contact:    "Contact section yahan hai!",
+        about:      "About section yahan hai!",
+        experience: "Gurpreet ka experience yahan hai!",
+        top:        "Upar wapas ja raha hoon!",
+        guide:      "Guide khol raha hoon!",
+        chat:       "Chat assistant khol raha hoon!"
+      }
+    },
+    'hi-en': {
+      recLang: 'en-IN',
+      greet:   "Welcome! Main Gurpreet ka voice assistant hoon. Aap bol sakte ho: Open Rhea, Open Sarah, Projects, Contact ya About.",
+      micAsk:  "Please apna microphone enable karo voice commands ke liye.",
+      notUnderstood: "Samajh nahi aaya yaar. Try karo: Open Rhea, Open Sarah, Projects, ya Contact.",
+      commands: {
+        rhea:       "Rhea open kar raha hoon! Gurpreet ka cinema AI agent.",
+        sarah:      "Sarah open kar raha hoon! Dental AI assistant.",
+        projects:   "Projects section pe le jata hoon!",
+        contact:    "Contact section yahan hai!",
+        about:      "About section yahan hai!",
+        experience: "Experience section dekho!",
+        top:        "Top pe wapas!",
+        guide:      "Guide kholta hoon!",
+        chat:       "Chat assistant kholta hoon!"
+      }
+    }
+  };
+
+  function getLang(){ return LANG_CONFIG[currentLang]; }
+
+  // ── Language switch ────────────────────────────────────────────────────
+  window.vnSetLang = function(lang){
+    currentLang = lang;
+    ['en','hi','hi-en'].forEach(function(l){
+      var map = {'en':'vl-en','hi':'vl-hi','hi-en':'vl-hien'};
+      var el = document.getElementById(map[l]);
+      if(el) el.classList.toggle('active', l === lang);
+    });
+  };
+
+  // ── ElevenLabs TTS via /api/tts ───────────────────────────────────────
+  function vaSpeak(text, onDone){
+    if(currentAudio){ currentAudio.pause(); currentAudio = null; }
+    speaking = true;
+    vaRipple(true);
+
+    fetch('/api/tts', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ text: text, language: currentLang })
+    })
+    .then(function(r){
+      if(!r.ok) throw new Error('TTS API error');
+      return r.blob();
+    })
+    .then(function(blob){
+      var url = URL.createObjectURL(blob);
+      currentAudio = new Audio(url);
+      currentAudio.onended = function(){
+        speaking = false; vaRipple(false);
+        URL.revokeObjectURL(url);
+        if(onDone) setTimeout(onDone, 200);
+      };
+      currentAudio.onerror = function(){
+        speaking = false; vaRipple(false);
+        if(onDone) onDone();
+      };
+      currentAudio.play().catch(function(){
+        // Autoplay blocked (mobile) — fallback browser TTS
+        speaking = false; vaRipple(false);
+        if(onDone) onDone();
+      });
+    })
+    .catch(function(err){
+      console.warn('ElevenLabs TTS failed, using browser TTS:', err);
+      speaking = false; vaRipple(false);
+      // Fallback to browser TTS
+      if(window.speechSynthesis){
+        var utt = new SpeechSynthesisUtterance(text);
+        utt.lang = getLang().recLang;
+        utt.rate = 0.95;
+        utt.onend = function(){ if(onDone) setTimeout(onDone, 200); };
+        window.speechSynthesis.speak(utt);
+      } else {
+        if(onDone) onDone();
+      }
+    });
   }
+
+  // ── Ripple animation ──────────────────────────────────────────────────
+  function vaRipple(show){
+    var r = document.getElementById('va-ripple');
+    if(r) r.classList.toggle('show', show);
+  }
+
+  // ── Transcript display ────────────────────────────────────────────────
+  function vaShowTranscript(prefix, text, color, dur){
+    var el   = document.getElementById('va-transcript');
+    var pre  = document.getElementById('va-t-prefix');
+    var txt  = document.getElementById('va-t-text');
+    if(!el) return;
+    pre.textContent  = prefix;
+    txt.textContent  = text;
+    txt.style.color  = color || 'var(--text)';
+    el.classList.add('show');
+    clearTimeout(el._t);
+    el._t = setTimeout(function(){ el.classList.remove('show'); }, dur || 3000);
+  }
+
+  // ── Greeting overlay ──────────────────────────────────────────────────
+  function vaShowGreeting(onDone){
+    var ov   = document.getElementById('va-greeting');
+    var fill = document.getElementById('va-greet-bar-fill');
+    if(!ov) { if(onDone) onDone(); return; }
+
+    ov.classList.add('show');
+
+    // Animate progress bar over 4s then hide
+    setTimeout(function(){
+      if(fill){ fill.style.transition = 'width 4s linear'; fill.style.width = '100%'; }
+    }, 200);
+
+    setTimeout(function(){
+      ov.classList.add('hide');
+      setTimeout(function(){
+        ov.classList.remove('show','hide');
+        if(fill){ fill.style.transition = 'none'; fill.style.width = '0%'; }
+        if(onDone) onDone();
+      }, 600);
+    }, 4500);
+  }
+
+  // ── Command matching ──────────────────────────────────────────────────
+  var CMD_KEYWORDS = {
+    rhea:       function(t){ return matchAlias(t,'rhea') || t.indexOf('cinema')!==-1 || t.indexOf('movie')!==-1 || t.indexOf('film')!==-1 || t.indexOf('booking')!==-1; },
+    sarah:      function(t){ return matchAlias(t,'sarah') || t.indexOf('dental')!==-1 || t.indexOf('dentist')!==-1 || t.indexOf('clinic')!==-1 || t.indexOf('appointment')!==-1; },
+    projects:   function(t){ return t.indexOf('project')!==-1 || t.indexOf('work')!==-1 || t.indexOf('kaam')!==-1; },
+    contact:    function(t){ return t.indexOf('contact')!==-1 || t.indexOf('hire')!==-1 || t.indexOf('email')!==-1 || t.indexOf('reach')!==-1 || t.indexOf('sampark')!==-1; },
+    about:      function(t){ return t.indexOf('about')!==-1 || t.indexOf('intro')!==-1 || t.indexOf('bio')!==-1 || t.indexOf('kaun')!==-1; },
+    experience: function(t){ return t.indexOf('experience')!==-1 || t.indexOf('intern')!==-1 || t.indexOf('job')!==-1 || t.indexOf('anubhav')!==-1; },
+    top:        function(t){ return t.indexOf('top')!==-1 || t.indexOf('home')!==-1 || t.indexOf('start')!==-1 || t.indexOf('upar')!==-1 || t.indexOf('back')!==-1; },
+    guide:      function(t){ return t.indexOf('guide')!==-1 || t.indexOf('help')!==-1 || t.indexOf('how')!==-1 || t.indexOf('madad')!==-1; },
+    chat:       function(t){ return t.indexOf('chat')!==-1 || t.indexOf('bot')!==-1 || t.indexOf('assistant')!==-1 || t.indexOf('question')!==-1; }
+  };
+
+  var CMD_ACTIONS = {
+    rhea:       function(){ if(typeof obClose==='function') obClose(); openRheaPage(); },
+    sarah:      function(){ if(typeof obClose==='function') obClose(); openSarahPage(); },
+    projects:   function(){ document.getElementById('projects').scrollIntoView({behavior:'smooth'}); },
+    contact:    function(){ document.getElementById('contact').scrollIntoView({behavior:'smooth'}); },
+    about:      function(){ document.getElementById('about').scrollIntoView({behavior:'smooth'}); },
+    experience: function(){ document.getElementById('experience').scrollIntoView({behavior:'smooth'}); },
+    top:        function(){ window.scrollTo({top:0,behavior:'smooth'}); },
+    guide:      function(){ if(typeof obOpen==='function') obOpen(); },
+    chat:       function(){ if(typeof cbToggle==='function') cbToggle(); }
+  };
 
   function vnMatch(transcript){
     var t = transcript.toLowerCase();
-    for(var i=0;i<COMMANDS.length;i++){
-      for(var j=0;j<COMMANDS[i].words.length;j++){
-        if(t.indexOf(COMMANDS[i].words[j]) !== -1){
-          return COMMANDS[i].action;
-        }
-      }
+    var keys = Object.keys(CMD_KEYWORDS);
+    for(var i=0;i<keys.length;i++){
+      if(CMD_KEYWORDS[keys[i]](t)) return keys[i];
     }
     return null;
   }
 
-  window.vnToggle = function(){
-    if(!SpeechRecognition){
-      vnToast('Not Supported', 'Use Chrome for voice navigation', 3000);
+  // ── Start mic listening ───────────────────────────────────────────────
+  function vnStartListening(){
+    if(!SR){
+      vaShowTranscript('⚠', 'Use Chrome for voice nav', '#ff4444', 3000);
       return;
     }
-    if(listening){
-      listening = false;
-      if(rec) rec.stop();
-      document.getElementById('vn-btn').classList.remove('listening');
-      vnToast('Stopped', 'Voice navigation off', 1500);
-      return;
-    }
-
-    rec = new SpeechRecognition();
-    rec.lang = 'en-IN';
+    rec = new SR();
+    rec.lang = getLang().recLang;
     rec.interimResults = false;
-    rec.maxAlternatives = 3;
+    rec.maxAlternatives = 5;
 
     rec.onstart = function(){
       listening = true;
       document.getElementById('vn-btn').classList.add('listening');
-      vnToast('🎙 Listening...', 'Say: "Open Rhea", "Contact", "Projects"...', 8000);
+      document.getElementById('vn-btn-label').textContent = '🔴 Listening...';
+      vaShowTranscript('🎙', 'Listening — say a command...', 'var(--accent2)', 10000);
     };
 
     rec.onresult = function(e){
-      var transcript = '';
+      // Collect all alternatives for better matching
+      var transcripts = [];
       for(var i=0;i<e.results[0].length;i++){
-        transcript += e.results[0][i].transcript + ' ';
+        transcripts.push(e.results[0][i].transcript.trim().toLowerCase());
       }
+      var combined = transcripts.join(' ');
+
       listening = false;
       document.getElementById('vn-btn').classList.remove('listening');
-      var action = vnMatch(transcript.trim());
-      if(action){
-        vnToast('✓ Got it!', '"' + transcript.trim() + '"', 2000);
-        setTimeout(action, 300);
+      document.getElementById('vn-btn-label').textContent = '🎙 Voice Nav';
+
+      var cmdKey = vnMatch(combined);
+      if(cmdKey){
+        var reply = getLang().commands[cmdKey];
+        vaShowTranscript('You said:', transcripts[0], 'var(--text)', 2500);
+        setTimeout(function(){
+          vaShowTranscript('Assistant:', reply, 'var(--accent)', 3000);
+        }, 600);
+        vaSpeak(reply, function(){ setTimeout(CMD_ACTIONS[cmdKey], 200); });
       } else {
-        vnToast('🤔 Not sure', '"' + transcript.trim() + '" — try again', 2500);
+        var notUnderstood = getLang().notUnderstood;
+        vaShowTranscript('You said:', transcripts[0] || '?', '#ff9944', 2500);
+        setTimeout(function(){
+          vaSpeak(notUnderstood);
+        }, 400);
       }
     };
 
     rec.onerror = function(e){
       listening = false;
       document.getElementById('vn-btn').classList.remove('listening');
+      document.getElementById('vn-btn-label').textContent = '🎙 Voice Nav';
       if(e.error === 'not-allowed'){
-        vnToast('Mic Blocked', 'Allow microphone in browser settings', 3000);
-      } else {
-        vnToast('Error', 'Try again', 2000);
+        vaShowTranscript('🚫', 'Mic blocked — allow in Chrome 🔒', '#ff4444', 4000);
+        vaSpeak(getLang().micAsk);
+      } else if(e.error !== 'aborted'){
+        vaShowTranscript('⚠', 'Error — try again', '#ff4444', 2000);
       }
     };
 
     rec.onend = function(){
       listening = false;
       document.getElementById('vn-btn').classList.remove('listening');
+      document.getElementById('vn-btn-label').textContent = '🎙 Voice Nav';
     };
 
     rec.start();
+  }
+
+  // ── Main toggle ───────────────────────────────────────────────────────
+  window.vnToggle = function(){
+    if(listening){
+      listening = false;
+      if(rec) rec.stop();
+      if(currentAudio){ currentAudio.pause(); }
+      document.getElementById('vn-btn').classList.remove('listening');
+      document.getElementById('vn-btn-label').textContent = '🎙 Voice Nav';
+      vaRipple(false);
+      vaShowTranscript('', 'Voice nav stopped', 'var(--muted)', 1500);
+      return;
+    }
+    vnStartListening();
   };
+
+  // ── Page load: show greeting overlay + speak ──────────────────────────
+  window.addEventListener('load', function(){
+    var isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+    var greetText = getLang().greet;
+
+    setTimeout(function(){
+      // Always show greeting overlay (text works everywhere)
+      vaShowGreeting(null);
+      // Play voice greeting (desktop only — mobile autoplay blocked)
+      if(!isMobile){
+        vaSpeak(greetText, null);
+      } else {
+        // On mobile show mic hint in transcript
+        setTimeout(function(){
+          vaShowTranscript('💡', 'Tap "Voice Nav" to navigate by voice', 'var(--accent2)', 5000);
+        }, 2000);
+      }
+    }, 2000);
+  });
+
 })();
 </script>
+
+
+<!-- ═══ VOICE ASSISTANT UI ═══ -->
+<div id="va-greeting">
+  <div id="va-greet-icon">🎙</div>
+  <div id="va-greet-text">Welcome to <span>Gurpreet's</span> Portfolio</div>
+  <div id="va-greet-sub" id="va-greet-sub">I'm your AI voice assistant.<br>Say a command to navigate — or click <strong style="color:#e8e8f0">Voice Nav</strong> anytime.</div>
+  <div id="va-greet-bar"><div id="va-greet-bar-fill"></div></div>
+</div>
+
+<div id="va-transcript">
+  <span class="va-t-prefix" id="va-t-prefix"></span>
+  <span id="va-t-text"></span>
+</div>
+
+<div id="va-ripple">
+  <div class="va-ripple-bar"></div>
+  <div class="va-ripple-bar"></div>
+  <div class="va-ripple-bar"></div>
+  <div class="va-ripple-bar"></div>
+  <div class="va-ripple-bar"></div>
+</div>
 
 </body>
 </html>
