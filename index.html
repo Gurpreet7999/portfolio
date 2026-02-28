@@ -105,7 +105,7 @@
 
   /* ABOUT */
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-  .about-text p { font-size: 16px; line-height: 1.8; color: var(--muted); margin-bottom: 20px; }
+  .about-text p { font-size: 17px; line-height: 1.9; color: var(--muted); margin-bottom: 20px; }
   .about-text p strong { color: var(--text); }
   .about-stack { display: flex; flex-direction: column; gap: 20px; }
   .stack-category { border: 1px solid var(--border); padding: 22px; background: var(--card); position: relative; overflow: hidden; transition: border-color 0.3s; }
@@ -151,7 +151,7 @@
   /* Details hidden until hover */
   .project-details { flex: 1; display: flex; flex-direction: column; overflow: hidden; opacity: 0; transition: opacity 0.3s ease 0.2s; pointer-events: none; }
   .project-card:hover .project-details { opacity: 1; pointer-events: all; }
-  .project-desc { font-size: 12px; color: var(--muted); line-height: 1.65; margin: 12px 0 12px; flex-shrink: 0; }
+  .project-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin: 12px 0 12px; flex-shrink: 0; }
   .project-tech { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; flex-shrink: 0; }
   .tech-badge { padding: 3px 9px; background: rgba(0,245,160,0.06); border: 1px solid rgba(0,245,160,0.15); font-family: 'Space Mono', monospace; font-size: 9px; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
   .tech-badge.purple { background: rgba(123,97,255,0.06); border-color: rgba(123,97,255,0.15); color: var(--accent2); }
@@ -306,7 +306,7 @@
     #projects { padding-left: 16px !important; padding-right: 16px !important; }
     .projects-grid { gap: 8px; }
     .project-card { padding: 20px; }
-    .project-desc { font-size: 12px; }
+    .project-desc { font-size: 13px; }
     .upcoming-section { padding: 0 16px 60px; }
     .upcoming-card { padding: 24px; }
     .upcoming-title { font-size: 17px; }
@@ -443,6 +443,171 @@
   .cb-eye { animation:cbEye 3.5s ease-in-out infinite; transform-origin:center; }
   .cb-eye:nth-child(2) { animation-delay:0.15s; }
 
+
+  /* ═══ VOICE NAVIGATOR ═══ */
+  #vn-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    background: rgba(123,97,255,0.1);
+    border: 1px solid rgba(123,97,255,0.45);
+    color: var(--accent2);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: none;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  #vn-btn:hover { background: rgba(123,97,255,0.2); border-color: var(--accent2); transform: translateY(-2px); box-shadow: 0 0 20px rgba(123,97,255,0.25); }
+  #vn-btn.listening {
+    border-color: #ff4444;
+    background: rgba(255,68,68,0.1);
+    color: #ff4444;
+    animation: vnListen 0.8s ease-in-out infinite;
+  }
+  @keyframes vnListen {
+    0%,100% { box-shadow: 0 0 0 0 rgba(255,68,68,0.3); }
+    50%      { box-shadow: 0 0 0 8px rgba(255,68,68,0); }
+  }
+  @media(max-width:600px){
+    #vn-btn { font-size: 10px; padding: 12px 18px; letter-spacing: 1.5px; }
+  }
+  #vn-toast {
+    position: fixed;
+    bottom: 160px;
+    right: 28px;
+    z-index: 2147483646;
+    background: #0d0d18;
+    border: 1px solid rgba(123,97,255,0.3);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text);
+    letter-spacing: 0.5px;
+    max-width: 220px;
+    line-height: 1.5;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.25s ease;
+    pointer-events: none;
+    text-align: right;
+  }
+  #vn-toast.show { opacity: 1; transform: translateY(0); }
+  #vn-toast .vn-t-label { font-size: 8px; color: var(--accent2); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+
+  /* ═══ ONBOARDING GUIDE ═══ */
+  #ob-overlay {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(0,0,0,0.82);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  #ob-overlay.show { opacity: 1; pointer-events: all; }
+  #ob-box {
+    background: #0d0d14;
+    border: 1px solid rgba(0,245,160,0.2);
+    border-radius: 6px;
+    padding: clamp(24px,4vw,40px);
+    max-width: 480px;
+    width: 100%;
+    position: relative;
+  }
+  #ob-box h2 { font-size: clamp(18px,4vw,24px); font-weight: 800; margin-bottom: 6px; }
+  #ob-box p  { font-size: 12px; color: var(--muted); margin-bottom: 24px; line-height: 1.7; }
+  .ob-step {
+    display: flex; gap: 14px; align-items: flex-start;
+    margin-bottom: 16px; padding: 14px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 4px; cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .ob-step:hover { border-color: rgba(0,245,160,0.3); }
+  .ob-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent); background: rgba(0,245,160,0.08); border: 1px solid rgba(0,245,160,0.2); padding: 4px 8px; flex-shrink: 0; }
+  .ob-step-text strong { display: block; font-size: 13px; color: var(--text); margin-bottom: 3px; }
+  .ob-step-text span { font-size: 11px; color: var(--muted); line-height: 1.5; }
+  .ob-step.purple .ob-num { color: var(--accent2); background: rgba(123,97,255,0.08); border-color: rgba(123,97,255,0.2); }
+  #ob-close-btn {
+    width: 100%; margin-top: 20px;
+    padding: 12px;
+    background: var(--accent); color: #000;
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    border: none; cursor: pointer;
+    clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+    transition: background 0.2s;
+  }
+  #ob-close-btn:hover { background: #fff; }
+  #ob-help-btn {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%) translateX(calc(100% - 28px));
+    z-index: 2147483640;
+    background: rgba(0,245,160,0.08);
+    border: 1px solid rgba(0,245,160,0.3);
+    border-right: none;
+    border-radius: 6px 0 0 6px;
+    padding: 10px 10px 10px 12px;
+    cursor: pointer;
+    transition: transform 0.25s ease, background 0.2s;
+    writing-mode: vertical-rl;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+  #ob-help-btn:hover { transform: translateY(-50%) translateX(0); background: rgba(0,245,160,0.14); }
+  @media(max-width:500px){
+    #vn-btn { bottom: 80px; right: 16px; width: 42px; height: 42px; }
+    #vn-toast { right: 16px; bottom: 136px; max-width: 180px; font-size: 9px; }
+    #ob-help-btn { transform: translateY(-50%) translateX(calc(100% - 22px)); }
+    #ob-help-btn:hover { transform: translateY(-50%) translateX(0); }
+  }
+
+
+  /* ═══ RHEA SAY HELLO POPUP ═══ */
+  #rhea-hello-popup {
+    display: none;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background: #0d0d14;
+    border: 1px solid rgba(0,245,160,0.35);
+    border-radius: 6px;
+    padding: 28px 32px;
+    text-align: center;
+    min-width: 220px;
+    max-width: 300px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.8);
+    animation: popIn 0.3s cubic-bezier(0.16,1,0.3,1);
+  }
+  @keyframes popIn { from{transform:translate(-50%,-50%) scale(0.85);opacity:0;} to{transform:translate(-50%,-50%) scale(1);opacity:1;} }
+  #rhea-hello-popup .rh-emoji { font-size: 36px; margin-bottom: 10px; }
+  #rhea-hello-popup .rh-title { font-family:'Space Mono',monospace; font-size:11px; color:var(--accent); letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; }
+  #rhea-hello-popup .rh-msg { font-size:13px; color:var(--text); line-height:1.6; margin-bottom:18px; }
+  #rhea-hello-popup .rh-hint { font-family:'Space Mono',monospace; font-size:9px; color:var(--muted); letter-spacing:1px; margin-bottom:20px; }
+  #rhea-hello-btn {
+    padding: 10px 24px;
+    background: var(--accent); color: #000;
+    font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    border: none; cursor: pointer;
+    clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+    transition: background 0.2s;
+  }
+  #rhea-hello-btn:hover { background: #fff; }
+
 </style>
 </head>
 <body>
@@ -516,6 +681,10 @@
     <div class="hero-cta">
       <a href="#projects" class="btn-primary">View Projects</a>
       <a href="#contact" class="btn-outline">Get In Touch</a>
+      <button id="vn-btn" onclick="vnToggle()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        Voice Nav
+      </button>
     </div>
   </div>
 
@@ -796,7 +965,7 @@
 
 <!-- SARAH PAGE MODAL -->
 <div id="sarahPageOverlay" style="display:none;position:fixed;inset:0;z-index:2000;background:var(--bg);overflow-y:auto;">
-  <div style="max-width:960px;margin:0 auto;padding:60px 40px 100px;">
+  <div style="max-width:960px;margin:0 auto;padding:clamp(20px,4vw,60px) clamp(12px,4vw,40px) 80px;">
 
     <!-- Back Button -->
     <button onclick="closeSarahPage()" style="display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;cursor:none;margin-bottom:48px;transition:all 0.3s;" onmouseenter="this.style.borderColor='var(--accent2)';this.style.color='var(--accent2)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
@@ -822,7 +991,7 @@
     </div>
 
     <!-- Two Column Layout -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:48px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(20px,3vw,40px);margin-bottom:48px;">
 
       <!-- Left: Info -->
       <div>
@@ -884,16 +1053,12 @@
           <div style="font-size:12px;color:var(--muted);line-height:1.6;max-width:260px;margin-bottom:28px;position:relative;z-index:1;">Your AI dental receptionist — books appointments, answers queries 24/7.</div>
 
           <!-- Mic warning note -->
-          <div style="display:flex;align-items:center;gap:8px;background:rgba(123,97,255,0.08);border:1px solid rgba(123,97,255,0.2);padding:10px 14px;margin-bottom:24px;position:relative;z-index:1;width:100%;max-width:320px;justify-content:center;">
-            <div id="sarahMicIcon" style="position:relative;cursor:none;">
-              <span style="font-size:16px;">🎤</span>
-              <!-- Tooltip -->
-              <div id="sarahMicTooltip" style="display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a0a0a;border:1px solid #ff4444;color:#ff4444;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;padding:6px 10px;white-space:nowrap;z-index:10;pointer-events:none;">
-                ⚠ Enable your web mic to talk
-                <div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #ff4444;"></div>
-              </div>
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(255,170,0,0.08);border:1.5px solid rgba(255,170,0,0.35);padding:14px 18px;margin-bottom:24px;position:relative;z-index:1;width:100%;max-width:360px;border-radius:4px;">
+            <span style="font-size:22px;flex-shrink:0;">🎤</span>
+            <div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#ffaa00;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:3px;">⚠ Mic Permission Required</div>
+              <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.5px;line-height:1.5;">Using <strong style="color:var(--text);">Chrome browser?</strong> Click the 🔒 lock icon in address bar → Allow Microphone — then come back and start chat.</div>
             </div>
-            <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;">Voice enabled — mic required</span>
           </div>
 
           <!-- CTA Buttons -->
@@ -909,7 +1074,7 @@
 
         <!-- ACTIVE CHAT STATE (shown after Start Chat) -->
         <div id="sarahChatActive" style="display:none;">
-          <div style="border:1px solid rgba(123,97,255,0.35);background:var(--card);overflow:hidden;height:480px;position:relative;">
+          <div style="border:1px solid rgba(123,97,255,0.35);background:var(--card);overflow:hidden;height:min(480px,65vh);position:relative;">
             <!-- Top bar -->
             <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(123,97,255,0.1);border-bottom:1px solid rgba(123,97,255,0.2);">
               <div style="display:flex;align-items:center;gap:8px;">
@@ -923,7 +1088,7 @@
             <iframe
               id="sarahIframe"
               src=""
-              data-src="https://agency-1inih2.chat-dash.com/iframe/699fe78ce59be6ad60f2c835"
+              data-src="https://agency-1inih2.chat-dash.com/iframe/69a29944152bc0cc1cfcb2c3"
               style="width:100%;height:calc(100% - 41px);border:none;"
               allow="microphone"
             ></iframe>
@@ -939,7 +1104,7 @@
 
 <!-- RHEA PAGE MODAL -->
 <div id="rheaPageOverlay" style="display:none;position:fixed;inset:0;z-index:2000;background:var(--bg);overflow-y:auto;">
-  <div style="max-width:960px;margin:0 auto;padding:60px 40px 100px;">
+  <div style="max-width:960px;margin:0 auto;padding:clamp(20px,4vw,60px) clamp(12px,4vw,40px) 80px;">
 
     <!-- Back Button -->
     <button onclick="closeRheaPage()" style="display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;cursor:none;margin-bottom:48px;transition:all 0.3s;" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
@@ -965,7 +1130,7 @@
     </div>
 
     <!-- Two Column Layout -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:48px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(20px,3vw,40px);margin-bottom:48px;">
 
       <!-- Left: Info -->
       <div>
@@ -1027,16 +1192,12 @@
           <div style="font-size:12px;color:var(--muted);line-height:1.6;max-width:260px;margin-bottom:28px;position:relative;z-index:1;">Your AI cinema booking assistant — recommends movies by mood & books tickets instantly.</div>
 
           <!-- Mic warning note -->
-          <div style="display:flex;align-items:center;gap:8px;background:rgba(0,245,160,0.05);border:1px solid rgba(0,245,160,0.15);padding:10px 14px;margin-bottom:24px;position:relative;z-index:1;width:100%;max-width:320px;justify-content:center;">
-            <div id="rheaMicIcon" style="position:relative;cursor:none;">
-              <span style="font-size:16px;">🎤</span>
-              <!-- Tooltip -->
-              <div id="rheaMicTooltip" style="display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a0a0a;border:1px solid #ff4444;color:#ff4444;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;padding:6px 10px;white-space:nowrap;z-index:10;pointer-events:none;">
-                ⚠ Enable your web mic to talk
-                <div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #ff4444;"></div>
-              </div>
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(255,170,0,0.08);border:1.5px solid rgba(255,170,0,0.35);padding:14px 18px;margin-bottom:24px;position:relative;z-index:1;width:100%;max-width:360px;border-radius:4px;">
+            <span style="font-size:22px;flex-shrink:0;">🎤</span>
+            <div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#ffaa00;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:3px;">⚠ Mic Permission Required</div>
+              <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.5px;line-height:1.5;">Using <strong style="color:var(--text);">Chrome browser?</strong> Click the 🔒 lock icon in address bar → Allow Microphone — then come back and start chat.</div>
             </div>
-            <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;">Voice enabled — mic required</span>
           </div>
 
           <!-- CTA Buttons -->
@@ -1052,7 +1213,15 @@
 
         <!-- ACTIVE CHAT STATE (shown after Start Chat) -->
         <div id="rheaChatActive" style="display:none;">
-          <div style="border:1px solid rgba(0,245,160,0.3);background:var(--card);overflow:hidden;height:480px;position:relative;">
+          <div style="border:1px solid rgba(0,245,160,0.3);background:var(--card);overflow:hidden;height:min(480px,65vh);position:relative;">
+            <!-- Say Hello Popup -->
+            <div id="rhea-hello-popup">
+              <div class="rh-emoji">🎬</div>
+              <div class="rh-title">Rhea is Ready!</div>
+              <div class="rh-msg">Say <strong>"Hello"</strong> to start your<br>cinema experience</div>
+              <div class="rh-hint">🎤 Make sure your mic is enabled</div>
+              <button id="rhea-hello-btn" onclick="document.getElementById('rhea-hello-popup').style.display='none'">Got it, I'll say Hello →</button>
+            </div>
             <!-- Top bar -->
             <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(0,245,160,0.06);border-bottom:1px solid rgba(0,245,160,0.15);">
               <div style="display:flex;align-items:center;gap:8px;">
@@ -1066,7 +1235,7 @@
             <iframe
               id="rheaIframe"
               src=""
-              data-src="https://agency-1inih2.chat-dash.com/iframe/699fe9dce59be6ad60f2ed21"
+              data-src="https://agency-1inih2.chat-dash.com/iframe/69a298b1f56142e53f7120eb"
               style="width:100%;height:calc(100% - 41px);border:none;"
               allow="microphone"
             ></iframe>
@@ -1230,6 +1399,9 @@ function closeRheaPage() {
 function startRheaChat() {
   document.getElementById('rheaPreview').style.display = 'none';
   document.getElementById('rheaChatActive').style.display = 'block';
+  // Show "Say Hello" popup
+  var popup = document.getElementById('rhea-hello-popup');
+  if(popup) { popup.style.display = 'block'; }
   // Lazy-load iframe only now
   const iframe = document.getElementById('rheaIframe');
   if (!iframe.src || iframe.src === window.location.href || iframe.src === '') {
@@ -1393,10 +1565,10 @@ document.addEventListener('keydown', e => {
     var inp=document.getElementById('cb-inp'),t=inp.value.trim();
     if(!t||busy)return;inp.value='';busy=true;cbAdd('u',t);cbTyp(true);
     fetch('/api/chat',{
-  method:'POST',
-  headers:{'Content-Type':'application/json'},
-  body:JSON.stringify({messages:[{role:'system',content:S}].concat(hist.slice(-12))})
-}).then(function(r){return r.json();}).then(function(d){
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:[{role:'system',content:S}].concat(hist.slice(-12))})
+    }).then(function(r){return r.json();}).then(function(d){
       cbTyp(false);
       cbAdd('b',d.choices&&d.choices[0]?d.choices[0].message.content:'Issue aa gaya. Contact: gpssingh277@gmail.com');
       busy=false;
@@ -1405,6 +1577,185 @@ document.addEventListener('keydown', e => {
   document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('cb-inp').addEventListener('keydown',function(e){if(e.key==='Enter')cbSend();});
   });
+})();
+</script>
+
+
+<!-- ═══ ONBOARDING GUIDE OVERLAY ═══ -->
+<div id="ob-overlay">
+  <div id="ob-box">
+    <h2>👋 Welcome to my Portfolio</h2>
+    <p>Here's how to explore and try my live AI projects:</p>
+    <div class="ob-step" onclick="obGoRhea()">
+      <div class="ob-num">01</div>
+      <div class="ob-step-text">
+        <strong>🎬 Talk to Rhea — AI Cinema Agent</strong>
+        <span>Scroll to Projects → Click "🎤 Talk to Rhea" → Allow mic → Click "Start Chat" and speak</span>
+      </div>
+    </div>
+    <div class="ob-step purple" onclick="obGoSarah()">
+      <div class="ob-num">02</div>
+      <div class="ob-step-text">
+        <strong>🦷 Talk to Sarah — Dental AI Agent</strong>
+        <span>Scroll to Projects → Click "🦷 Talk to Sarah" → Allow mic → Click "Start Chat" and speak</span>
+      </div>
+    </div>
+    <div class="ob-step" onclick="obClose()">
+      <div class="ob-num">03</div>
+      <div class="ob-step-text">
+        <strong>🤖 Chat Agent (bottom right)</strong>
+        <span>The green robot icon answers questions about Gurpreet's skills, projects, and hiring</span>
+      </div>
+    </div>
+    <div class="ob-step" onclick="obClose()">
+      <div class="ob-num">04</div>
+      <div class="ob-step-text">
+        <strong>🎙 Voice Navigate (purple mic)</strong>
+        <span>Click the purple mic button → say "Open Rhea", "Open Sarah", "Go to Contact", etc.</span>
+      </div>
+    </div>
+    <button id="ob-close-btn" onclick="obClose()">Got it — Explore Portfolio →</button>
+  </div>
+</div>
+
+<!-- Persistent Help Button (right edge) -->
+<button id="ob-help-btn" onclick="obOpen()" title="Show Guide">
+  ? Guide
+</button>
+
+
+
+<!-- Voice Toast Feedback -->
+<div id="vn-toast">
+  <div class="vn-t-label" id="vn-toast-label">Listening...</div>
+  <div id="vn-toast-text">Say a command</div>
+</div>
+
+<script>
+// ═══ ONBOARDING ═══
+(function(){
+  function obSeen(){ try{ return localStorage.getItem('ob_seen'); } catch(e){ return false; } }
+  function obMark(){ try{ localStorage.setItem('ob_seen','1'); } catch(e){} }
+
+  window.obOpen = function(){
+    document.getElementById('ob-overlay').classList.add('show');
+  };
+  window.obClose = function(){
+    document.getElementById('ob-overlay').classList.remove('show');
+    obMark();
+  };
+  window.obGoRhea = function(){
+    obClose();
+    setTimeout(function(){ openRheaPage(); }, 300);
+  };
+  window.obGoSarah = function(){
+    obClose();
+    setTimeout(function(){ openSarahPage(); }, 300);
+  };
+
+  // Show on first visit after 1.5s
+  window.addEventListener('load', function(){
+    if(!obSeen()){
+      setTimeout(obOpen, 1500);
+    }
+  });
+})();
+
+// ═══ VOICE NAVIGATOR ═══
+(function(){
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var listening = false;
+  var rec;
+
+  var COMMANDS = [
+    { words: ['rhea','cinema','movie','film'],  action: function(){ obClose(); openRheaPage(); } },
+    { words: ['sarah','dental','dentist','clinic'], action: function(){ obClose(); openSarahPage(); } },
+    { words: ['contact','hire','email'],         action: function(){ document.getElementById('contact').scrollIntoView({behavior:'smooth'}); } },
+    { words: ['about'],                          action: function(){ document.getElementById('about').scrollIntoView({behavior:'smooth'}); } },
+    { words: ['project','projects','work'],      action: function(){ document.getElementById('projects').scrollIntoView({behavior:'smooth'}); } },
+    { words: ['top','home','start','hero'],      action: function(){ window.scrollTo({top:0,behavior:'smooth'}); } },
+    { words: ['experience','intern'],            action: function(){ document.getElementById('experience').scrollIntoView({behavior:'smooth'}); } },
+    { words: ['guide','help','how'],             action: function(){ obOpen(); } },
+    { words: ['chat','bot','assistant'],         action: function(){ if(typeof cbToggle==='function') cbToggle(); } },
+  ];
+
+  function vnToast(label, text, dur){
+    var t = document.getElementById('vn-toast');
+    document.getElementById('vn-toast-label').textContent = label;
+    document.getElementById('vn-toast-text').textContent  = text;
+    t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, dur||2200);
+  }
+
+  function vnMatch(transcript){
+    var t = transcript.toLowerCase();
+    for(var i=0;i<COMMANDS.length;i++){
+      for(var j=0;j<COMMANDS[i].words.length;j++){
+        if(t.indexOf(COMMANDS[i].words[j]) !== -1){
+          return COMMANDS[i].action;
+        }
+      }
+    }
+    return null;
+  }
+
+  window.vnToggle = function(){
+    if(!SpeechRecognition){
+      vnToast('Not Supported', 'Use Chrome for voice navigation', 3000);
+      return;
+    }
+    if(listening){
+      listening = false;
+      if(rec) rec.stop();
+      document.getElementById('vn-btn').classList.remove('listening');
+      vnToast('Stopped', 'Voice navigation off', 1500);
+      return;
+    }
+
+    rec = new SpeechRecognition();
+    rec.lang = 'en-IN';
+    rec.interimResults = false;
+    rec.maxAlternatives = 3;
+
+    rec.onstart = function(){
+      listening = true;
+      document.getElementById('vn-btn').classList.add('listening');
+      vnToast('🎙 Listening...', 'Say: "Open Rhea", "Contact", "Projects"...', 8000);
+    };
+
+    rec.onresult = function(e){
+      var transcript = '';
+      for(var i=0;i<e.results[0].length;i++){
+        transcript += e.results[0][i].transcript + ' ';
+      }
+      listening = false;
+      document.getElementById('vn-btn').classList.remove('listening');
+      var action = vnMatch(transcript.trim());
+      if(action){
+        vnToast('✓ Got it!', '"' + transcript.trim() + '"', 2000);
+        setTimeout(action, 300);
+      } else {
+        vnToast('🤔 Not sure', '"' + transcript.trim() + '" — try again', 2500);
+      }
+    };
+
+    rec.onerror = function(e){
+      listening = false;
+      document.getElementById('vn-btn').classList.remove('listening');
+      if(e.error === 'not-allowed'){
+        vnToast('Mic Blocked', 'Allow microphone in browser settings', 3000);
+      } else {
+        vnToast('Error', 'Try again', 2000);
+      }
+    };
+
+    rec.onend = function(){
+      listening = false;
+      document.getElementById('vn-btn').classList.remove('listening');
+    };
+
+    rec.start();
+  };
 })();
 </script>
 
