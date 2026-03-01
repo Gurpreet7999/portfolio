@@ -105,7 +105,7 @@
 
   /* ABOUT */
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-  .about-text p { font-size: 17px; line-height: 1.9; color: var(--muted); margin-bottom: 20px; }
+  .about-text p { font-size: 16px; line-height: 1.8; color: var(--muted); margin-bottom: 20px; }
   .about-text p strong { color: var(--text); }
   .about-stack { display: flex; flex-direction: column; gap: 20px; }
   .stack-category { border: 1px solid var(--border); padding: 22px; background: var(--card); position: relative; overflow: hidden; transition: border-color 0.3s; }
@@ -151,7 +151,7 @@
   /* Details hidden until hover */
   .project-details { flex: 1; display: flex; flex-direction: column; overflow: hidden; opacity: 0; transition: opacity 0.3s ease 0.2s; pointer-events: none; }
   .project-card:hover .project-details { opacity: 1; pointer-events: all; }
-  .project-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin: 12px 0 12px; flex-shrink: 0; }
+  .project-desc { font-size: 12px; color: var(--muted); line-height: 1.65; margin: 12px 0 12px; flex-shrink: 0; }
   .project-tech { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; flex-shrink: 0; }
   .tech-badge { padding: 3px 9px; background: rgba(0,245,160,0.06); border: 1px solid rgba(0,245,160,0.15); font-family: 'Space Mono', monospace; font-size: 9px; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
   .tech-badge.purple { background: rgba(123,97,255,0.06); border-color: rgba(123,97,255,0.15); color: var(--accent2); }
@@ -203,6 +203,262 @@
   .footer-logo { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
   .footer-copy { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; }
 
+  /* ── VOICE NAV BUTTON ── */
+  .btn-voice-nav {
+    padding: 14px 32px;
+    background: rgba(123,97,255,0.12);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid rgba(123,97,255,0.5);
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: all 0.3s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-voice-nav:hover { border-color: var(--accent2); color: var(--accent2); background: rgba(123,97,255,0.2); }
+  .btn-voice-nav.active { background: rgba(123,97,255,0.3); border-color: var(--accent2); color: var(--accent2); animation: voicePulse 1.5s ease-in-out infinite; }
+  @keyframes voicePulse { 0%,100%{box-shadow:0 0 0 0 rgba(123,97,255,0.4);} 50%{box-shadow:0 0 0 8px rgba(123,97,255,0);} }
+
+  /* ── VOICE GUIDE POPUP ── */
+  #voiceGuide {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(16px);
+    background: var(--surface);
+    border: 1px solid rgba(123,97,255,0.4);
+    padding: 24px 28px 22px;
+    width: min(400px, 92vw);
+    z-index: 9500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(123,97,255,0.1);
+  }
+  #voiceGuide.show {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(-50%) translateY(0);
+  }
+  #voiceGuide-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #voiceGuide-title::before { content:''; width:24px; height:1px; background:var(--accent2); }
+  #voiceGuide-status {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .vg-dot { width:8px; height:8px; border-radius:50%; background:var(--accent); animation:voiceDot 1.2s ease-in-out infinite; flex-shrink:0; }
+  @keyframes voiceDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+  .vg-commands { display:flex; flex-direction:column; gap:7px; }
+  .vg-cmd {
+    display:flex; align-items:center; gap:10px;
+    font-family:'Space Mono',monospace; font-size:11px; color:var(--muted);
+    padding:8px 12px; background:rgba(255,255,255,0.03); border:1px solid var(--border);
+    line-height: 1.4;
+  }
+  .vg-cmd span { color:var(--text); font-size:11px; }
+  .vg-close {
+    position: absolute;
+    top: 0px; right: 0px;
+    /* Large tap target for mobile */
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    background: none; border: none; color: var(--muted);
+    font-size: 18px; cursor: pointer; z-index: 10;
+    transition: color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .vg-close:hover, .vg-close:active { color: var(--accent); }
+
+  /* ── ELEVEN LABS WELCOME TOAST ── */
+  #elWelcome {
+    position: fixed;
+    top: 72px;
+    right: 16px;
+    left: auto;
+    background: var(--surface);
+    border: 1px solid rgba(0,245,160,0.25);
+    padding: 14px 18px;
+    width: min(300px, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
+    z-index: 9300;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+    box-sizing: border-box;
+  }
+  #elWelcome.show { opacity:1; transform:translateY(0); }
+  #elWelcome-label { font-size:9px; color:var(--accent); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; display:flex;align-items:center;gap:6px; }
+  #elWelcome-label::before{content:'';width:16px;height:1px;background:var(--accent);}
+  .el-wave {
+    display:flex; gap:3px; align-items:center; margin-top:8px;
+  }
+  .el-wave span {
+    display:block; width:3px; border-radius:2px; background:var(--accent);
+    animation: elWave 1s ease-in-out infinite;
+  }
+  .el-wave span:nth-child(1){height:8px;animation-delay:0s;}
+  .el-wave span:nth-child(2){height:14px;animation-delay:0.15s;}
+  .el-wave span:nth-child(3){height:10px;animation-delay:0.3s;}
+  .el-wave span:nth-child(4){height:16px;animation-delay:0.45s;}
+  .el-wave span:nth-child(5){height:8px;animation-delay:0.6s;}
+  @keyframes elWave { 0%,100%{transform:scaleY(0.4);opacity:0.5} 50%{transform:scaleY(1);opacity:1} }
+
+  /* ── MIC PERMISSION TOAST ── */
+  #micPermToast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: var(--surface);
+    border: 1px solid rgba(123,97,255,0.5);
+    padding: 28px 32px;
+    max-width: 320px;
+    width: 90vw;
+    z-index: 99999;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(123,97,255,0.1);
+  }
+  #micPermToast.show {
+    opacity: 1;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  #micPermToast .mic-icon {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: rgba(123,97,255,0.15);
+    border: 2px solid rgba(123,97,255,0.5);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    animation: micPulseRing 1.5s ease-in-out infinite;
+  }
+  @keyframes micPulseRing {
+    0%,100% { box-shadow: 0 0 0 0 rgba(123,97,255,0.4); }
+    50% { box-shadow: 0 0 0 12px rgba(123,97,255,0); }
+  }
+  #micPermToast h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--accent2);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  #micPermToast p {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  #micPermToast .mic-progress {
+    width: 100%;
+    height: 2px;
+    background: var(--border);
+    margin-top: 16px;
+    overflow: hidden;
+  }
+  #micPermToast .mic-progress-bar {
+    height: 100%;
+    background: var(--accent2);
+    width: 0%;
+    transition: width 1.5s linear;
+  }
+
+  /* ── ELEVENLABS WIDGET OVERRIDES ── */
+  /* Default: hidden */
+  elevenlabs-convai {
+    --el-color-primary: #7b61ff !important;
+    --el-color-background: #0d0d14 !important;
+    display: none !important;
+    position: fixed !important;
+    z-index: 9100 !important;
+    /* Desktop: bottom-right */
+    bottom: 100px !important;
+    right: 28px !important;
+  }
+  /* Visible state */
+  elevenlabs-convai.el-visible {
+    display: block !important;
+  }
+  /* Mobile: center-bottom, constrained width */
+  @media (max-width: 600px) {
+    elevenlabs-convai {
+      bottom: 10px !important;
+      right: 10px !important;
+      left: 10px !important;
+      width: calc(100vw - 20px) !important;
+      max-width: calc(100vw - 20px) !important;
+    }
+  }
+  /* Suppress ElevenLabs default floating launcher button entirely */
+  elevenlabs-convai::part(launcher),
+  elevenlabs-convai::part(fab) {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* ── FLOATING VOICE TRANSCRIPTION ── */
+  #voiceTranscript {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9200;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 20px 24px;
+    pointer-events: none;
+  }
+  #voiceTranscript.active {
+    display: flex;
+  }
+  #voiceTranscriptText {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(22px, 4vw, 38px);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.18);
+    text-align: center;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    max-width: 80vw;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+    transition: opacity 0.4s ease;
+    word-break: break-word;
+  }
+  #voiceTranscriptText.fade-out {
+    opacity: 0;
+  }
+
   /* MARQUEE */
   .marquee-section { padding: 26px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; background: var(--surface); }
   .marquee-track { display: flex; gap: 60px; animation: marquee 22s linear infinite; white-space: nowrap; }
@@ -219,53 +475,24 @@
   @keyframes rheaPulse { 0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--accent); } 50% { opacity: 0.4; box-shadow: 0 0 12px var(--accent); } }
   @keyframes sarahPulse { 0%, 100% { opacity: 1; box-shadow: 0 0 6px #7b61ff; } 50% { opacity: 0.4; box-shadow: 0 0 12px #7b61ff; } }
 
-  /* ══ RESPONSIVE — CLEAN & COMPLETE ══ */
+  /* ══ RESPONSIVE — MOBILE FIRST FIX ══ */
 
-  /* Global: never overflow horizontally */
-  *, *::before, *::after { box-sizing: border-box; }
-  html, body { overflow-x: hidden; width: 100%; max-width: 100vw; }
-
-  /* Mobile stats strip — hidden on desktop */
-  #mobile-stats-strip {
-    display: none;
-    width: 100%;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .mstat-item { flex: 1; text-align: center; padding: 16px 8px; }
-  .mstat-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 28px; font-weight: 800;
-    color: var(--accent); line-height: 1;
-    display: flex; align-items: baseline;
-    justify-content: center; gap: 1px;
-  }
-  .mstat-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 8px; color: var(--muted);
-    letter-spacing: 2px; text-transform: uppercase;
-    margin-top: 4px;
+  /* Prevent ALL horizontal overflow at root level */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
-  /* ── TABLET ≤900px ── */
+  /* ══════════════════════════════════════
+     TABLET (max 900px)
+  ══════════════════════════════════════ */
   @media (max-width: 900px) {
-    /* Nav */
     nav { padding: 13px 20px; }
     .nav-links { display: none; }
-
-    /* Hero */
     #hero { padding: 100px 24px 60px; overflow: hidden; }
-    .hero-name { font-size: clamp(38px, 9vw, 64px); letter-spacing: -1.5px; }
-    .hero-glow { width: 300px; height: 300px; }
-    .hero-stats { display: none !important; }      /* hide absolute-positioned stats */
-    .scroll-indicator { display: none; }
-
-    /* Show mobile strip */
-    #mobile-stats-strip { display: flex; }
-
-    /* Sections */
     section { padding: 80px 24px; max-width: 100%; }
+    /* Stats hidden at tablet — shown inline on mobile below */
+    .hero-stats { display: none; }
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
     .projects-grid { flex-direction: column; height: auto; }
     .project-card { flex: none !important; height: auto; }
@@ -276,198 +503,187 @@
     footer { flex-direction: column; gap: 12px; text-align: center; }
     #contact { padding: 80px 24px; }
     .form-row { grid-template-columns: 1fr; }
-    .upcoming-section { padding: 0 24px 80px; max-width: 100%; }
+    .scroll-indicator { display: none; }
+    .upcoming-section { padding: 0 24px 80px; }
+    .hero-name { font-size: clamp(38px, 9vw, 64px); letter-spacing: -1.5px; }
+    .hero-glow { width: 300px; height: 300px; }
     #projects { padding-left: 24px !important; padding-right: 24px !important; }
     .projects-grid { max-width: 100% !important; }
-    .hero-cta { flex-wrap: wrap; gap: 12px; }
+    .upcoming-section { max-width: 100%; padding-left: 24px; padding-right: 24px; }
   }
 
-  /* ── MOBILE ≤600px ── */
+  /* ══════════════════════════════════════
+     MOBILE (max 600px) — ALL FIXES HERE
+  ══════════════════════════════════════ */
   @media (max-width: 600px) {
-    /* Nav */
+    /* ── Performance: disable cursor & heavy effects ── */
+    .cursor, .cursor-follower { display: none !important; }
+    body { cursor: auto; }
+    * { -webkit-tap-highlight-color: transparent; }
+    .project-card { transition: border-color 0.2s; }
+    .project-card:hover::after { display: none; }
+    .hero-glow { animation: none !important; }
+    .pulseGlow { animation: none !important; }
+
+    /* ── Nav ── */
     nav { padding: 12px 16px; }
     .logo-text { font-size: 11px; }
-    .btn-hire { padding: 8px 14px; font-size: 9px; letter-spacing: 1px; }
+    .btn-hire { padding: 9px 18px; font-size: 10px; }
 
-    /* Hero — clean vertical layout */
+    /* ── Hero layout — full width, no overflow ── */
     #hero {
-      padding: 72px 16px 36px;
-      min-height: auto;
-      align-items: flex-start;
+      padding: 90px 16px 40px;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
     }
     .hero-content { width: 100%; max-width: 100%; }
-    .hero-name {
-      font-size: clamp(34px, 10vw, 52px);
-      letter-spacing: -1px;
-      margin-bottom: 14px;
-      line-height: 1;
-    }
-    .hero-label { font-size: 9px; letter-spacing: 2px; margin-bottom: 12px; }
-    .hero-sub { font-size: 13px; line-height: 1.7; margin-bottom: 22px; min-height: unset; }
-    .hero-glow { width: 160px; height: 160px; animation: none !important; }
-    .hero-grid { display: none !important; }
-    .hero-stats { display: none !important; }  /* always use mobile strip */
+    .hero-name { font-size: clamp(34px, 10vw, 50px); letter-spacing: -1px; margin-bottom: 16px; }
+    .hero-label { font-size: 9px; letter-spacing: 2px; margin-bottom: 14px; }
+    .hero-sub { font-size: 13px; line-height: 1.7; margin-bottom: 24px; min-height: unset; }
+    .hero-grid { display: none; }
+    .hero-glow { width: 180px; height: 180px; top: 30%; left: 50%; }
 
-    /* CTA buttons — vertical, no clip-path clipping */
+    /* ── Hero CTA buttons: stack vertically on mobile ── */
     .hero-cta {
+      display: flex;
       flex-direction: column;
-      align-items: stretch;
       gap: 10px;
       width: 100%;
     }
     .btn-primary {
-      padding: 13px 20px;
-      font-size: 11px;
-      letter-spacing: 1.5px;
+      width: 100%;
       text-align: center;
-      display: block;
-      width: 100%;
-    }
-    .btn-outline {
       padding: 13px 20px;
       font-size: 11px;
       letter-spacing: 1.5px;
-      text-align: center;
-      display: block;
-      width: 100%;
-    }
-
-    /* Voice Nav button — full width, no clip-path */
-    #vn-btn {
-      width: 100%;
-      padding: 13px 20px;
-      font-size: 11px;
-      letter-spacing: 1.5px;
-      clip-path: none !important;
-      border-radius: 4px;
       justify-content: center;
       display: flex;
+      align-items: center;
+    }
+    .btn-outline {
+      width: 100%;
+      text-align: center;
+      padding: 13px 20px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+    }
+    .btn-voice-nav {
+      width: 100%;
+      justify-content: center;
+      padding: 13px 20px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
     }
 
-    /* Language row */
-    #vn-lang-row { margin-top: 10px; gap: 8px; justify-content: flex-start; }
-    .vn-lang-btn { padding: 6px 12px; font-size: 9px; border-radius: 3px; }
+    /* ── Stats: show as compact row BELOW hero content ── */
+    .hero-stats {
+      display: flex !important;
+      position: static !important;
+      transform: none !important;
+      flex-direction: row !important;
+      justify-content: space-around !important;
+      align-items: center !important;
+      width: 100% !important;
+      margin-top: 28px !important;
+      padding: 16px 0 !important;
+      border-top: 1px solid var(--border) !important;
+      animation: none !important;
+      opacity: 1 !important;
+      gap: 0 !important;
+    }
+    .stat-item { text-align: center; flex: 1; }
+    .stat-num-wrap { font-size: 24px !important; justify-content: center; }
+    .stat-label { font-size: 7px; letter-spacing: 1px; }
+    .stat-symbol { opacity: 1 !important; transform: none !important; }
 
-    /* Mobile stats strip */
-    .mstat-num { font-size: 24px; }
-    .mstat-label { font-size: 7px; }
-    #mobile-stats-strip { display: flex; }
+    /* ── Sections ── */
+    section { padding: 60px 16px; }
+    .section-header { margin-bottom: 40px; gap: 12px; }
+    .section-title { font-size: clamp(26px, 8vw, 40px); letter-spacing: -1px; }
 
-    /* Sections */
-    section { padding: 48px 16px; }
-    .section-header { margin-bottom: 30px; gap: 10px; }
-    .section-title { font-size: clamp(26px, 7vw, 40px); letter-spacing: -1px; }
-
-    /* About */
-    .about-grid { gap: 24px; }
-    .about-text p { font-size: 14px; }
+    /* ── About ── */
+    .about-grid { gap: 28px; }
+    .about-text p { font-size: 13px; }
     .stack-category { padding: 14px; }
 
-    /* Projects */
+    /* ── Projects ── */
     #projects { padding-left: 16px !important; padding-right: 16px !important; }
-    .projects-grid { gap: 10px; }
-    .project-card { padding: 18px; transition: none !important; }
-    .project-card:hover::after { display: none !important; }
-    .project-desc { font-size: 13px; }
-    .upcoming-section { padding: 0 16px 48px; }
+    .projects-grid { gap: 8px; }
+    .project-card { padding: 18px; }
+    .project-desc { font-size: 12px; }
+    .upcoming-section { padding: 0 16px 60px; }
     .upcoming-card { padding: 20px; }
     .upcoming-title { font-size: 16px; }
 
-    /* Experience */
-    .exp-item { padding: 22px 0 22px 24px; }
+    /* ── Experience ── */
+    .exp-item { padding: 24px 0 24px 28px; }
     .exp-title { font-size: 17px; }
     .exp-points li { font-size: 12px; }
 
-    /* Contact */
-    #contact { padding: 48px 16px; }
-    .contact-heading { font-size: clamp(24px, 7vw, 42px); }
+    /* ── Contact ── */
+    #contact { padding: 60px 16px; }
+    .contact-heading { font-size: clamp(26px, 8vw, 44px); }
     .contact-inner { gap: 24px; }
 
-    /* Footer */
+    /* ── Footer ── */
     footer { padding: 20px 16px; font-size: 9px; }
-    .marquee-track { animation-duration: 25s; }
 
-    /* Rhea/Sarah overlays */
-    #rheaPageOverlay, #sarahPageOverlay {
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
-    }
-    #rheaPageOverlay > div, #sarahPageOverlay > div {
-      padding: 20px 14px 60px !important;
-      width: 100% !important;
-      max-width: 100% !important;
-    }
-    #rheaChatActive > div, #sarahChatActive > div {
-      height: min(400px, 58vh) !important;
-    }
+    /* ── Marquee ── */
+    .marquee-track { animation-duration: 28s; }
 
-    /* Chatbot */
-    #cb-win {
-      width: calc(100vw - 16px) !important;
-      right: 8px !important;
-      left: 8px !important;
-      bottom: 76px !important;
-      height: min(420px, 68vh) !important;
-    }
-    #cb-btn {
-      bottom: 14px !important;
-      right: 14px !important;
-      width: 48px !important;
-      height: 48px !important;
-      animation: none !important;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.7) !important;
-    }
+    /* ── Overlays ── */
+    #rheaPageOverlay > div,
+    #sarahPageOverlay > div { padding: 40px 16px 80px; }
+    #rheaPageOverlay .grid-2col,
+    #sarahPageOverlay .grid-2col { grid-template-columns: 1fr !important; }
 
-    /* Voice UI */
-    #va-transcript {
-      bottom: 14px;
-      font-size: 12px;
-      padding: 10px 16px;
-      max-width: 96vw;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-    }
-    #va-ripple { bottom: 68px; }
-    #va-greeting {
-      padding: 20px 16px;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-    }
-    #va-greet-icon { width: 52px; height: 52px; font-size: 22px; margin-bottom: 14px; animation: none !important; }
-    #va-greet-text { font-size: clamp(18px, 5vw, 26px); letter-spacing: -0.5px; }
-    #va-greet-sub { font-size: 11px; }
+    /* ── Chatbot ── */
+    #cb-win { width: calc(100vw - 20px); right: 10px; bottom: 86px; height: 420px; }
+    #cb-btn { bottom: 16px; right: 16px; width: 52px; height: 52px; }
 
-    /* Onboarding */
-    #ob-help-btn { display: none; }
-    #ob-box { padding: 20px 16px; }
-    .ob-step { padding: 12px; }
+    /* ── Voice guide popup — full width mobile, above EL widget ── */
+    #voiceGuide {
+      left: 10px !important;
+      right: 10px !important;
+      bottom: 10px !important;
+      width: auto !important;
+      transform: translateY(10px) !important;
+    }
+    #voiceGuide.show {
+      transform: translateY(0) !important;
+    }
+    #voiceGuide-title { font-size: 10px; }
+    #voiceGuide-status { font-size: 11px; }
+    .vg-cmd { font-size: 10px; padding: 7px 10px; }
+    .vg-cmd span { font-size: 10px; }
 
-    /* Performance — kill all heavy effects on mobile */
-    .cursor, .cursor-follower { display: none !important; }
-    * { -webkit-tap-highlight-color: transparent; }
-    body { cursor: auto !important; }
-    button, a, [onclick] { cursor: pointer !important; }
-    @keyframes pulseGlow { 0%,100%{opacity:1;} }
-    @keyframes cbPulse { 0%,100%{ box-shadow: 0 4px 16px rgba(0,0,0,0.7); } }
-    @keyframes vaIconPulse { 0%,100%{box-shadow:none;} }
-    .va-ripple-bar { animation-duration: 1.5s; }
+    /* ── Transcript — smaller on mobile ── */
+    #voiceTranscriptText {
+      font-size: clamp(20px, 5.5vw, 30px) !important;
+      max-width: 94vw !important;
+      color: rgba(255,255,255,0.22) !important;
+    }
+    #voiceTranscript { padding: 0 12px 70px !important; }
+
+    /* All buttons cursor pointer */
+    .btn-primary, .btn-outline, .btn-hire, .btn-voice-nav,
+    .project-link, .contact-link, .cb-chip { cursor: pointer; }
   }
 
-  /* ── SMALL PHONES ≤380px ── */
+  /* ── Extra small phones (< 380px) ── */
   @media (max-width: 380px) {
-    .hero-name { font-size: 30px !important; }
-    .btn-primary, .btn-outline { font-size: 10px; padding: 12px 16px; }
-    #vn-btn { font-size: 10px; padding: 12px 16px; }
-    .mstat-num { font-size: 20px; }
-    .mstat-label { font-size: 6px; }
-    nav { padding: 10px 12px; }
-    .logo-text { font-size: 10px; }
-    .btn-hire { padding: 7px 10px; font-size: 8px; }
-    #cb-btn { width: 42px !important; height: 42px !important; }
+    .hero-name { font-size: 30px; }
+    .stat-num-wrap { font-size: 20px !important; }
+    .btn-primary, .btn-outline, .btn-voice-nav { padding: 11px 16px; font-size: 10px; }
   }
 
-    /* ── CHATBOT WIDGET ── */
+
+  /* ── CHATBOT WIDGET ── */
   #cb-btn {
     position: fixed !important;
     bottom: 28px !important;
@@ -538,245 +754,6 @@
   @keyframes cbEye { 0%,88%,100%{transform:scaleY(1);} 93%{transform:scaleY(0.1);} }
   .cb-eye { animation:cbEye 3.5s ease-in-out infinite; transform-origin:center; }
   .cb-eye:nth-child(2) { animation-delay:0.15s; }
-
-
-  /* ═══ VOICE ASSISTANT SYSTEM ═══ */
-
-  /* Voice Nav Button in Hero */
-  #vn-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 14px 24px;
-    background: rgba(123,97,255,0.1);
-    border: 1px solid rgba(123,97,255,0.45);
-    color: var(--accent2);
-    font-family: 'Space Mono', monospace; font-size: 12px;
-    font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-    cursor: pointer;
-    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-    transition: all 0.3s;
-  }
-  #vn-btn:hover { background: rgba(123,97,255,0.22); transform: translateY(-2px); box-shadow: 0 0 24px rgba(123,97,255,0.3); }
-  #vn-btn.vn-loading { opacity: 0.6; pointer-events: none; }
-  #vn-btn.listening {
-    border-color: #ff4444; background: rgba(255,68,68,0.1); color: #ff4444;
-    animation: vnPulse 0.9s ease-in-out infinite;
-  }
-  @keyframes vnPulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,68,68,0.35);} 50%{box-shadow:0 0 0 10px rgba(255,68,68,0);} }
-
-  /* Language Toggle */
-  #vn-lang-row {
-    display: flex; gap: 6px; margin-top: 14px;
-    opacity: 0; animation: fadeUp 0.8s ease 1s forwards;
-  }
-  .vn-lang-btn {
-    padding: 5px 12px;
-    font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px;
-    text-transform: uppercase; border: 1px solid var(--border);
-    background: transparent; color: var(--muted); cursor: pointer;
-    transition: all 0.2s; border-radius: 2px;
-  }
-  .vn-lang-btn.active { border-color: var(--accent2); color: var(--accent2); background: rgba(123,97,255,0.1); }
-  .vn-lang-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-
-  /* Greeting Overlay — full screen center */
-  #va-greeting {
-    position: fixed; inset: 0; z-index: 8000;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    background: rgba(5,5,8,0.92);
-    backdrop-filter: blur(8px);
-    pointer-events: none;
-    opacity: 0; transition: opacity 0.6s ease;
-    padding: 20px; text-align: center;
-  }
-  #va-greeting.show { opacity: 1; }
-  #va-greeting.hide { opacity: 0; }
-  #va-greet-icon {
-    width: 80px; height: 80px; border-radius: 50%;
-    background: rgba(123,97,255,0.12);
-    border: 2px solid rgba(123,97,255,0.4);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 36px; margin-bottom: 24px;
-    animation: vaIconPulse 2s ease-in-out infinite;
-  }
-  @keyframes vaIconPulse {
-    0%,100%{box-shadow:0 0 0 0 rgba(123,97,255,0.3);}
-    50%{box-shadow:0 0 0 16px rgba(123,97,255,0);}
-  }
-  #va-greet-text {
-    font-size: clamp(22px, 5vw, 42px);
-    font-weight: 800; letter-spacing: -1px; line-height: 1.2;
-    color: var(--text); max-width: 600px; margin-bottom: 12px;
-  }
-  #va-greet-text span { color: var(--accent2); }
-  #va-greet-sub {
-    font-family: 'Space Mono', monospace; font-size: clamp(10px,1.5vw,13px);
-    color: var(--muted); letter-spacing: 1px; line-height: 1.8;
-    max-width: 480px; margin-bottom: 28px;
-  }
-  #va-greet-bar {
-    width: 200px; height: 3px;
-    background: var(--border); border-radius: 2px; overflow: hidden;
-  }
-  #va-greet-bar-fill {
-    height: 100%; width: 0%; background: var(--accent2);
-    transition: width linear;
-  }
-
-  /* Live Transcription — center bottom floating */
-  #va-transcript {
-    position: fixed;
-    bottom: 32px; left: 50%; transform: translateX(-50%) translateY(16px);
-    z-index: 7000;
-    background: rgba(13,13,20,0.92);
-    border: 1px solid rgba(123,97,255,0.35);
-    border-radius: 40px;
-    padding: 14px 28px;
-    font-family: 'Space Mono', monospace;
-    font-size: clamp(13px, 2vw, 18px);
-    color: var(--text); letter-spacing: 0.5px;
-    white-space: nowrap; max-width: 90vw;
-    overflow: hidden; text-overflow: ellipsis;
-    opacity: 0; transition: all 0.3s ease;
-    pointer-events: none;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-  }
-  #va-transcript.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  #va-transcript .va-t-prefix { color: var(--accent2); margin-right: 8px; font-size: 11px; }
-  #va-transcript .va-t-reply { color: var(--accent); }
-
-  /* Voice ripple when speaking */
-  #va-ripple {
-    position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
-    z-index: 6999; display: none;
-    align-items: center; justify-content: center; gap: 4px;
-  }
-  #va-ripple.show { display: flex; }
-  .va-ripple-bar {
-    width: 3px; border-radius: 3px; background: var(--accent2);
-    animation: vaRippleBar 1s ease-in-out infinite;
-  }
-  .va-ripple-bar:nth-child(1){height:8px;animation-delay:0s;}
-  .va-ripple-bar:nth-child(2){height:16px;animation-delay:0.1s;}
-  .va-ripple-bar:nth-child(3){height:24px;animation-delay:0.2s;}
-  .va-ripple-bar:nth-child(4){height:16px;animation-delay:0.3s;}
-  .va-ripple-bar:nth-child(5){height:8px;animation-delay:0.4s;}
-  @keyframes vaRippleBar { 0%,100%{transform:scaleY(0.4);opacity:0.4;} 50%{transform:scaleY(1);opacity:1;} }
-
-  @media(max-width:600px){
-    #vn-btn { font-size: 10px; padding: 11px 16px; letter-spacing: 1.5px; }
-    #va-greet-icon { width: 60px; height: 60px; font-size: 26px; }
-    #va-transcript { font-size: 12px; padding: 10px 20px; bottom: 20px; }
-    #vn-lang-row { gap: 4px; }
-    .vn-lang-btn { padding: 4px 9px; font-size: 8px; }
-  }
-
-  /* ═══ ONBOARDING GUIDE ═══ */
-  #ob-overlay {
-    position: fixed; inset: 0; z-index: 9000;
-    background: rgba(0,0,0,0.82);
-    backdrop-filter: blur(4px);
-    display: flex; align-items: center; justify-content: center;
-    padding: 20px;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  #ob-overlay.show { opacity: 1; pointer-events: all; }
-  #ob-box {
-    background: #0d0d14;
-    border: 1px solid rgba(0,245,160,0.2);
-    border-radius: 6px;
-    padding: clamp(24px,4vw,40px);
-    max-width: 480px;
-    width: 100%;
-    position: relative;
-  }
-  #ob-box h2 { font-size: clamp(18px,4vw,24px); font-weight: 800; margin-bottom: 6px; }
-  #ob-box p  { font-size: 12px; color: var(--muted); margin-bottom: 24px; line-height: 1.7; }
-  .ob-step {
-    display: flex; gap: 14px; align-items: flex-start;
-    margin-bottom: 16px; padding: 14px;
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 4px; cursor: pointer;
-    transition: border-color 0.2s;
-  }
-  .ob-step:hover { border-color: rgba(0,245,160,0.3); }
-  .ob-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent); background: rgba(0,245,160,0.08); border: 1px solid rgba(0,245,160,0.2); padding: 4px 8px; flex-shrink: 0; }
-  .ob-step-text strong { display: block; font-size: 13px; color: var(--text); margin-bottom: 3px; }
-  .ob-step-text span { font-size: 11px; color: var(--muted); line-height: 1.5; }
-  .ob-step.purple .ob-num { color: var(--accent2); background: rgba(123,97,255,0.08); border-color: rgba(123,97,255,0.2); }
-  #ob-close-btn {
-    width: 100%; margin-top: 20px;
-    padding: 12px;
-    background: var(--accent); color: #000;
-    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-    border: none; cursor: pointer;
-    clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
-    transition: background 0.2s;
-  }
-  #ob-close-btn:hover { background: #fff; }
-  #ob-help-btn {
-    position: fixed;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%) translateX(calc(100% - 28px));
-    z-index: 2147483640;
-    background: rgba(0,245,160,0.08);
-    border: 1px solid rgba(0,245,160,0.3);
-    border-right: none;
-    border-radius: 6px 0 0 6px;
-    padding: 10px 10px 10px 12px;
-    cursor: pointer;
-    transition: transform 0.25s ease, background 0.2s;
-    writing-mode: vertical-rl;
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    color: var(--accent);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    display: flex; align-items: center; gap: 6px;
-  }
-  #ob-help-btn:hover { transform: translateY(-50%) translateX(0); background: rgba(0,245,160,0.14); }
-  @media(max-width:500px){
-    #vn-btn { bottom: 80px; right: 16px; width: 42px; height: 42px; }
-    #vn-toast { right: 16px; bottom: 136px; max-width: 180px; font-size: 9px; }
-    #ob-help-btn { transform: translateY(-50%) translateX(calc(100% - 22px)); }
-    #ob-help-btn:hover { transform: translateY(-50%) translateX(0); }
-  }
-
-
-  /* ═══ RHEA SAY HELLO POPUP ═══ */
-  #rhea-hello-popup {
-    display: none;
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 100;
-    background: #0d0d14;
-    border: 1px solid rgba(0,245,160,0.35);
-    border-radius: 6px;
-    padding: 28px 32px;
-    text-align: center;
-    min-width: 220px;
-    max-width: 300px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.8);
-    animation: popIn 0.3s cubic-bezier(0.16,1,0.3,1);
-  }
-  @keyframes popIn { from{transform:translate(-50%,-50%) scale(0.85);opacity:0;} to{transform:translate(-50%,-50%) scale(1);opacity:1;} }
-  #rhea-hello-popup .rh-emoji { font-size: 36px; margin-bottom: 10px; }
-  #rhea-hello-popup .rh-title { font-family:'Space Mono',monospace; font-size:11px; color:var(--accent); letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; }
-  #rhea-hello-popup .rh-msg { font-size:13px; color:var(--text); line-height:1.6; margin-bottom:18px; }
-  #rhea-hello-popup .rh-hint { font-family:'Space Mono',monospace; font-size:9px; color:var(--muted); letter-spacing:1px; margin-bottom:20px; }
-  #rhea-hello-btn {
-    padding: 10px 24px;
-    background: var(--accent); color: #000;
-    font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-    border: none; cursor: pointer;
-    clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
-    transition: background 0.2s;
-  }
-  #rhea-hello-btn:hover { background: #fff; }
 
 </style>
 </head>
@@ -851,15 +828,10 @@
     <div class="hero-cta">
       <a href="#projects" class="btn-primary">View Projects</a>
       <a href="#contact" class="btn-outline">Get In Touch</a>
-      <button id="vn-btn" onclick="vnToggle()" style="white-space: nowrap; width: auto; min-width: fit-content;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        <span id="vn-btn-label">🎙 Voice Assistant</span>
+      <button class="btn-voice-nav" id="voiceNavBtn" onclick="toggleVoiceNav()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        Portfolio Assistant
       </button>
-    </div>
-    <div id="vn-lang-row">
-      <button class="vn-lang-btn active" onclick="vnSetLang('en')" id="vl-en">EN</button>
-      <button class="vn-lang-btn" onclick="vnSetLang('hi')" id="vl-hi">हि</button>
-      <button class="vn-lang-btn" onclick="vnSetLang('hi-en')" id="vl-hien">HI-EN</button>
     </div>
   </div>
 
@@ -883,22 +855,6 @@
     Scroll to explore
   </div>
 </section>
-
-<!-- MOBILE STATS STRIP — shows only on ≤900px -->
-<div id="mobile-stats-strip">
-  <div class="mstat-item">
-    <div class="mstat-num"><span class="stat-counter" id="mc0">6</span><span>+</span></div>
-    <div class="mstat-label">AI Projects</div>
-  </div>
-  <div class="mstat-item">
-    <div class="mstat-num"><span class="stat-counter" id="mc1">80</span><span>%</span></div>
-    <div class="mstat-label">Time Saved</div>
-  </div>
-  <div class="mstat-item">
-    <div class="mstat-num"><span class="stat-counter" id="mc2">5</span><span>+</span></div>
-    <div class="mstat-label">Leads/Session</div>
-  </div>
-</div>
 
 <!-- MARQUEE -->
 <div class="marquee-section">
@@ -1156,7 +1112,7 @@
 
 <!-- SARAH PAGE MODAL -->
 <div id="sarahPageOverlay" style="display:none;position:fixed;inset:0;z-index:2000;background:var(--bg);overflow-y:auto;">
-  <div style="max-width:960px;margin:0 auto;padding:clamp(20px,4vw,60px) clamp(12px,4vw,40px) 80px;">
+  <div style="max-width:960px;margin:0 auto;padding:60px 40px 100px;">
 
     <!-- Back Button -->
     <button onclick="closeSarahPage()" style="display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;cursor:none;margin-bottom:48px;transition:all 0.3s;" onmouseenter="this.style.borderColor='var(--accent2)';this.style.color='var(--accent2)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
@@ -1182,7 +1138,7 @@
     </div>
 
     <!-- Two Column Layout -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(20px,3vw,40px);margin-bottom:48px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:48px;">
 
       <!-- Left: Info -->
       <div>
@@ -1244,12 +1200,16 @@
           <div style="font-size:12px;color:var(--muted);line-height:1.6;max-width:260px;margin-bottom:28px;position:relative;z-index:1;">Your AI dental receptionist — books appointments, answers queries 24/7.</div>
 
           <!-- Mic warning note -->
-          <div style="display:flex;align-items:center;gap:12px;background:rgba(255,170,0,0.08);border:1.5px solid rgba(255,170,0,0.35);padding:14px 18px;margin-bottom:24px;position:relative;z-index:1;width:100%;max-width:360px;border-radius:4px;">
-            <span style="font-size:22px;flex-shrink:0;">🎤</span>
-            <div>
-              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#ffaa00;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:3px;">⚠ Mic Permission Required</div>
-              <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.5px;line-height:1.5;">Using <strong style="color:var(--text);">Chrome browser?</strong> Click the 🔒 lock icon in address bar → Allow Microphone — then come back and start chat.</div>
+          <div style="display:flex;align-items:center;gap:8px;background:rgba(123,97,255,0.08);border:1px solid rgba(123,97,255,0.2);padding:10px 14px;margin-bottom:24px;position:relative;z-index:1;width:100%;max-width:320px;justify-content:center;">
+            <div id="sarahMicIcon" style="position:relative;cursor:none;">
+              <span style="font-size:16px;">🎤</span>
+              <!-- Tooltip -->
+              <div id="sarahMicTooltip" style="display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a0a0a;border:1px solid #ff4444;color:#ff4444;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;padding:6px 10px;white-space:nowrap;z-index:10;pointer-events:none;">
+                ⚠ Enable your web mic to talk
+                <div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #ff4444;"></div>
+              </div>
             </div>
+            <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;">Voice enabled — mic required</span>
           </div>
 
           <!-- CTA Buttons -->
@@ -1265,7 +1225,7 @@
 
         <!-- ACTIVE CHAT STATE (shown after Start Chat) -->
         <div id="sarahChatActive" style="display:none;">
-          <div style="border:1px solid rgba(123,97,255,0.35);background:var(--card);overflow:hidden;height:min(480px,65vh);position:relative;">
+          <div style="border:1px solid rgba(123,97,255,0.35);background:var(--card);overflow:hidden;height:480px;position:relative;">
             <!-- Top bar -->
             <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(123,97,255,0.1);border-bottom:1px solid rgba(123,97,255,0.2);">
               <div style="display:flex;align-items:center;gap:8px;">
@@ -1279,7 +1239,7 @@
             <iframe
               id="sarahIframe"
               src=""
-              data-src="https://agency-1inih2.chat-dash.com/iframe/69a29944152bc0cc1cfcb2c3"
+              data-src="https://agency-1inih2.chat-dash.com/iframe/699fe78ce59be6ad60f2c835"
               style="width:100%;height:calc(100% - 41px);border:none;"
               allow="microphone"
             ></iframe>
@@ -1295,7 +1255,7 @@
 
 <!-- RHEA PAGE MODAL -->
 <div id="rheaPageOverlay" style="display:none;position:fixed;inset:0;z-index:2000;background:var(--bg);overflow-y:auto;">
-  <div style="max-width:960px;margin:0 auto;padding:clamp(20px,4vw,60px) clamp(12px,4vw,40px) 80px;">
+  <div style="max-width:960px;margin:0 auto;padding:60px 40px 100px;">
 
     <!-- Back Button -->
     <button onclick="closeRheaPage()" style="display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;cursor:none;margin-bottom:48px;transition:all 0.3s;" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
@@ -1321,7 +1281,7 @@
     </div>
 
     <!-- Two Column Layout -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(20px,3vw,40px);margin-bottom:48px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:48px;">
 
       <!-- Left: Info -->
       <div>
@@ -1383,12 +1343,16 @@
           <div style="font-size:12px;color:var(--muted);line-height:1.6;max-width:260px;margin-bottom:28px;position:relative;z-index:1;">Your AI cinema booking assistant — recommends movies by mood & books tickets instantly.</div>
 
           <!-- Mic warning note -->
-          <div style="display:flex;align-items:center;gap:12px;background:rgba(255,170,0,0.08);border:1.5px solid rgba(255,170,0,0.35);padding:14px 18px;margin-bottom:24px;position:relative;z-index:1;width:100%;max-width:360px;border-radius:4px;">
-            <span style="font-size:22px;flex-shrink:0;">🎤</span>
-            <div>
-              <div style="font-family:'Space Mono',monospace;font-size:10px;color:#ffaa00;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:3px;">⚠ Mic Permission Required</div>
-              <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.5px;line-height:1.5;">Using <strong style="color:var(--text);">Chrome browser?</strong> Click the 🔒 lock icon in address bar → Allow Microphone — then come back and start chat.</div>
+          <div style="display:flex;align-items:center;gap:8px;background:rgba(0,245,160,0.05);border:1px solid rgba(0,245,160,0.15);padding:10px 14px;margin-bottom:24px;position:relative;z-index:1;width:100%;max-width:320px;justify-content:center;">
+            <div id="rheaMicIcon" style="position:relative;cursor:none;">
+              <span style="font-size:16px;">🎤</span>
+              <!-- Tooltip -->
+              <div id="rheaMicTooltip" style="display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a0a0a;border:1px solid #ff4444;color:#ff4444;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;padding:6px 10px;white-space:nowrap;z-index:10;pointer-events:none;">
+                ⚠ Enable your web mic to talk
+                <div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #ff4444;"></div>
+              </div>
             </div>
+            <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;">Voice enabled — mic required</span>
           </div>
 
           <!-- CTA Buttons -->
@@ -1404,15 +1368,7 @@
 
         <!-- ACTIVE CHAT STATE (shown after Start Chat) -->
         <div id="rheaChatActive" style="display:none;">
-          <div style="border:1px solid rgba(0,245,160,0.3);background:var(--card);overflow:hidden;height:min(480px,65vh);position:relative;">
-            <!-- Say Hello Popup -->
-            <div id="rhea-hello-popup">
-              <div class="rh-emoji">🎬</div>
-              <div class="rh-title">Rhea is Ready!</div>
-              <div class="rh-msg">Say <strong>"Hello"</strong> to start your<br>cinema experience</div>
-              <div class="rh-hint">🎤 Make sure your mic is enabled</div>
-              <button id="rhea-hello-btn" onclick="document.getElementById('rhea-hello-popup').style.display='none'">Got it, I'll say Hello →</button>
-            </div>
+          <div style="border:1px solid rgba(0,245,160,0.3);background:var(--card);overflow:hidden;height:480px;position:relative;">
             <!-- Top bar -->
             <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(0,245,160,0.06);border-bottom:1px solid rgba(0,245,160,0.15);">
               <div style="display:flex;align-items:center;gap:8px;">
@@ -1426,7 +1382,7 @@
             <iframe
               id="rheaIframe"
               src=""
-              data-src="https://agency-1inih2.chat-dash.com/iframe/69a298b1f56142e53f7120eb"
+              data-src="https://agency-1inih2.chat-dash.com/iframe/699fe9dce59be6ad60f2ed21"
               style="width:100%;height:calc(100% - 41px);border:none;"
               allow="microphone"
             ></iframe>
@@ -1590,9 +1546,6 @@ function closeRheaPage() {
 function startRheaChat() {
   document.getElementById('rheaPreview').style.display = 'none';
   document.getElementById('rheaChatActive').style.display = 'block';
-  // Show "Say Hello" popup
-  var popup = document.getElementById('rhea-hello-popup');
-  if(popup) { popup.style.display = 'block'; }
   // Lazy-load iframe only now
   const iframe = document.getElementById('rheaIframe');
   if (!iframe.src || iframe.src === window.location.href || iframe.src === '') {
@@ -1730,6 +1683,315 @@ document.addEventListener('keydown', e => {
     </button>
   </div>
 </div>
+<!-- Mic Permission Toast -->
+<div id="micPermToast">
+  <div class="mic-icon">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7b61ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+      <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+      <line x1="12" y1="19" x2="12" y2="23"/>
+      <line x1="8" y1="23" x2="16" y2="23"/>
+    </svg>
+  </div>
+  <h4>Enable Microphone</h4>
+  <p>Please allow microphone access<br>to talk with the AI assistant.</p>
+  <div class="mic-progress"><div class="mic-progress-bar" id="micProgBar"></div></div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     ELEVENLABS OFFICIAL WIDGET SYSTEM
+     ═══════════════════════════════════════ -->
+
+<!-- ElevenLabs SDK -->
+<script src="https://elevenlabs.io/convai-widget/index.js" async></script>
+
+<!-- Welcome Toast -->
+<div id="elWelcome">
+  <div id="elWelcome-label">
+    <div class="vg-dot" style="width:6px;height:6px;background:var(--accent);border-radius:50%;animation:voiceDot 1.2s ease-in-out infinite;flex-shrink:0;"></div>
+    AI Voice Assistant
+  </div>
+  <div style="color:var(--text);font-size:11px;line-height:1.6;">Welcome to Gurpreet's Portfolio!<br><span style="color:var(--muted);">Click <strong style="color:var(--accent2);">Portfolio Assistant</strong> to talk with AI.</span></div>
+  <div class="el-wave" style="margin-top:10px;">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+</div>
+
+<!-- Voice Guide Popup (shown only when widget is active) -->
+<div id="voiceGuide">
+  <button class="vg-close" onclick="closeVoiceGuide(event)" ontouchend="closeVoiceGuide(event)">✕</button>
+  <div id="voiceGuide-title">Portfolio Assistant Active</div>
+  <div id="voiceGuide-status">
+    <div class="vg-dot"></div>
+    <span id="vg-status-text">Speak with Gurpreet's AI Assistant</span>
+  </div>
+  <div class="vg-commands">
+    <div class="vg-cmd" style="flex-direction:column;align-items:flex-start;gap:4px;">
+      <span style="color:var(--accent);font-size:9px;letter-spacing:1px;">ASK ANYTHING LIKE:</span>
+    </div>
+    <div class="vg-cmd">🚀 <span>"Tell me about Rhea project"</span></div>
+    <div class="vg-cmd">👤 <span>"Who is Gurpreet Singh?"</span></div>
+    <div class="vg-cmd">💼 <span>"What skills does he have?"</span></div>
+    <div class="vg-cmd">📬 <span>"How can I hire Gurpreet?"</span></div>
+    <div class="vg-cmd">🤖 <span>"What projects has he built?"</span></div>
+    <div class="vg-cmd" style="margin-top:4px;border-color:rgba(123,97,255,0.2);background:rgba(123,97,255,0.05);">
+      🎙 <span style="color:var(--accent2);">Mic is live — just speak!</span>
+    </div>
+  </div>
+</div>
+
+<!-- ElevenLabs Widget — agent-id injected via JS from backend -->
+<elevenlabs-convai
+  id="elWidget"
+></elevenlabs-convai>
+
+<!-- Floating Voice Transcription Overlay -->
+<div id="voiceTranscript" aria-live="polite">
+  <div id="voiceTranscriptText"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   PORTFOLIO ASSISTANT CONTROLLER v4
+   - Guide auto-hides after 3s
+   - Mobile close button works
+   - EL widget properly shown/hidden
+   - Transcription only when active
+   - No mic running in background
+   ═══════════════════════════════════════════ */
+(function(){
+  var widgetOpen = false;
+  var guideTimer = null;
+  var transcriptTimer = null;
+  var speechCapture = null;
+
+  /* ── Touch device: disable cursor JS to prevent lag ── */
+  if('ontouchstart' in window || navigator.maxTouchPoints > 0){
+    document.addEventListener('DOMContentLoaded', function(){
+      ['cursor','cursor-follower'].forEach(function(id){
+        var el = document.querySelector('.'+id);
+        if(el) el.style.display = 'none';
+      });
+      document.body.style.cursor = 'auto';
+      /* Also kill cursor mousemove listeners by removing cursor elements */
+      var c = document.getElementById('cursor');
+      var cf = document.getElementById('cursorFollower');
+      if(c) c.parentNode && c.parentNode.removeChild(c);
+      if(cf) cf.parentNode && cf.parentNode.removeChild(cf);
+    });
+  }
+
+  /* ── Welcome Toast: page load + 1.5s ── */
+  window.addEventListener('load', function(){
+    setTimeout(function(){
+      var t = document.getElementById('elWelcome');
+      if(t){ t.classList.add('show'); }
+      setTimeout(function(){
+        if(t){ t.classList.remove('show'); }
+      }, 6000);
+    }, 1500);
+  });
+
+  /* ── Mic Permission Toast (1.5s) then callback ── */
+  function showMicToast(cb){
+    var t = document.getElementById('micPermToast');
+    var b = document.getElementById('micProgBar');
+    if(!t){ cb && cb(); return; }
+    t.classList.add('show');
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        if(b) b.style.width = '100%';
+      });
+    });
+    setTimeout(function(){
+      t.classList.remove('show');
+      if(b){
+        b.style.transition = 'none';
+        b.style.width = '0%';
+        setTimeout(function(){ b.style.transition = 'width 1.5s linear'; }, 60);
+      }
+      cb && cb();
+    }, 1700);
+  }
+
+  /* ── Fetch Agent ID from backend (never exposed in HTML) ── */
+  var cachedAgentId = null;
+  function fetchAgentId(cb) {
+    if (cachedAgentId) { cb(cachedAgentId); return; }
+    fetch('/api/agent-config')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.agentId) {
+          cachedAgentId = d.agentId;
+          cb(cachedAgentId);
+        }
+      })
+      .catch(function() { cb(null); });
+  }
+
+  /* ── Main toggle ── */
+  window.toggleVoiceNav = function(){
+    widgetOpen ? closeAll() : showMicToast(openAll);
+  };
+
+  /* ── Close guide button (called from HTML onclick) ── */
+  window.closeVoiceGuide = function(e){
+    if(e){ e.stopPropagation(); e.preventDefault(); }
+    closeAll();
+  };
+
+  function openAll(){
+    widgetOpen = true;
+
+    /* 1. Fetch agent-id from backend, then show widget */
+    fetchAgentId(function(agentId) {
+      var w = document.getElementById('elWidget');
+      if(w) {
+        if(agentId) w.setAttribute('agent-id', agentId);
+        w.classList.add('el-visible');
+      }
+    });
+
+    /* 2. Active state on button */
+    var btn = document.getElementById('voiceNavBtn');
+    if(btn) btn.classList.add('active');
+
+    /* 3. Show guide, then AUTO-HIDE after 3s */
+    showGuideTemporary();
+
+    /* 4. Show transcription layer */
+    var tr = document.getElementById('voiceTranscript');
+    if(tr) tr.classList.add('active');
+
+    /* 5. Auto-trigger EL widget's internal start */
+    triggerELWidget();
+
+    /* 6. Start speech capture for transcription only */
+    startSpeechCapture();
+  }
+
+  function closeAll(){
+    widgetOpen = false;
+    clearTimeout(guideTimer);
+    clearTimeout(transcriptTimer);
+
+    var w = document.getElementById('elWidget');
+    if(w) w.classList.remove('el-visible');
+
+    var btn = document.getElementById('voiceNavBtn');
+    if(btn) btn.classList.remove('active');
+
+    hideGuide();
+
+    var tr = document.getElementById('voiceTranscript');
+    if(tr) tr.classList.remove('active');
+
+    stopSpeechCapture();
+
+    /* Clear transcript text */
+    var txt = document.getElementById('voiceTranscriptText');
+    if(txt){ txt.classList.remove('fade-out'); txt.textContent = ''; }
+  }
+
+  /* ── Guide: show for 3 seconds then auto-hide ── */
+  function showGuideTemporary(){
+    var g = document.getElementById('voiceGuide');
+    if(!g) return;
+    g.classList.add('show');
+    clearTimeout(guideTimer);
+    guideTimer = setTimeout(function(){
+      hideGuide();
+    }, 3000);
+  }
+
+  function hideGuide(){
+    var g = document.getElementById('voiceGuide');
+    if(g) g.classList.remove('show');
+  }
+
+  /* ── Trigger ElevenLabs widget internal start button ── */
+  function triggerELWidget(){
+    var el = document.getElementById('elWidget');
+    if(!el) return;
+    var attempts = 0;
+    var maxAttempts = 12;
+    var interval = setInterval(function(){
+      attempts++;
+      if(!widgetOpen || attempts > maxAttempts){ clearInterval(interval); return; }
+      var sr = el.shadowRoot;
+      if(sr){
+        /* Try to find the start/call button, avoid close buttons */
+        var btns = sr.querySelectorAll('button, [role="button"]');
+        for(var i=0; i<btns.length; i++){
+          var b = btns[i];
+          var label = (b.getAttribute('aria-label')||'').toLowerCase();
+          var text  = (b.textContent||'').toLowerCase().trim();
+          if(label.includes('close') || label.includes('end') || text.includes('end')) continue;
+          b.click();
+          clearInterval(interval);
+          return;
+        }
+      }
+    }, 350);
+  }
+
+  /* ══ SPEECH CAPTURE FOR TRANSCRIPTION ══
+     Only runs while widget is open.
+     Does NOT conflict with ElevenLabs mic —
+     we listen in parallel for display only. */
+  function startSpeechCapture(){
+    stopSpeechCapture(); /* Ensure clean state */
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SR) return;
+    try {
+      speechCapture = new SR();
+      speechCapture.continuous = true;
+      speechCapture.interimResults = true;
+      speechCapture.lang = 'en-US';
+      speechCapture.onresult = function(e){
+        if(!widgetOpen) return;
+        var last = e.results[e.results.length - 1];
+        var text = last[0].transcript.trim();
+        if(text && text.length > 2) showTranscript(text);
+      };
+      speechCapture.onerror = function(){};
+      speechCapture.onend = function(){
+        /* Restart only if still open */
+        if(widgetOpen && speechCapture){
+          try{ speechCapture.start(); }catch(e){}
+        }
+      };
+      speechCapture.start();
+    } catch(e){ speechCapture = null; }
+  }
+
+  function stopSpeechCapture(){
+    if(speechCapture){
+      speechCapture.onend = null;
+      speechCapture.onresult = null;
+      try{ speechCapture.stop(); }catch(e){}
+      speechCapture = null;
+    }
+  }
+
+  /* ── Show floating transcript text ── */
+  function showTranscript(text){
+    var el = document.getElementById('voiceTranscriptText');
+    if(!el || !widgetOpen) return;
+    el.classList.remove('fade-out');
+    el.textContent = text;
+    clearTimeout(transcriptTimer);
+    transcriptTimer = setTimeout(function(){
+      el.classList.add('fade-out');
+      setTimeout(function(){
+        if(el){ el.textContent = ''; el.classList.remove('fade-out'); }
+      }, 500);
+    }, 3500);
+  }
+
+})();
+</script>
+
 <script>
 (function(){
   var S='You are a smart friendly AI assistant on Gurpreet Singh portfolio website. Help visitors learn about Gurpreet his projects skills and how to hire him.\n\nABOUT: Gurpreet Singh, Delhi India. AI Automation and Conversational Agent Developer. Data Science Intern Sabudh Foundation July 2025 present. BCA Maharaja Agrasen International College Raipur 2022-2025 CGPA 7.0. Email gpssingh277@gmail.com Phone +91 7999 386 243. LinkedIn https://linkedin.com/in/gurpreet-singh-21684a30a GitHub https://github.com/Gurpreet7999 Portfolio https://auto-flow79.vercel.app\n\nPROJECTS: 1 Rhea AI Cinema Voice Booking mood-based movies books tickets WhatsApp Gmail 100% automated github.com/Gurpreet7999/ai-cinema-voice-booking-agent. 2 Sarah AI Dental Voice Assistant 24/7 queries booking WhatsApp SaaS 70% fewer missed calls github.com/Gurpreet7999/ai-dental-voice-assistant. 3 AI Lead Intelligence 500+ B2B leads Google Maps Sheets 80% less time github.com/Gurpreet7999/ai-lead-generation-system. 4 RAG Chatbot vector search Gemini. 5 Titanic ML EDA ensemble classifiers. UPCOMING Multi-Agent Orchestration Personal AI Super-Assistant.\n\nSKILLS: Python SQL n8n Gemini API Voice AI Pandas NumPy Scikit-learn WhatsApp API Gmail API REST APIs GitHub.\n\nHIRING: Open freelance voice AI chatbots automation lead gen. Contact gpssingh277@gmail.com +91 7999 386 243.\n\nSTYLE: Concise friendly. Hinglish if user writes Hindi otherwise English. Max 120 words. Never invent info.';
@@ -1756,10 +2018,10 @@ document.addEventListener('keydown', e => {
     var inp=document.getElementById('cb-inp'),t=inp.value.trim();
     if(!t||busy)return;inp.value='';busy=true;cbAdd('u',t);cbTyp(true);
     fetch('/api/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({messages:[{role:'system',content:S}].concat(hist.slice(-12))})
-    }).then(function(r){return r.json();}).then(function(d){
+  method:'POST',
+  headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({messages:[{role:'system',content:S}].concat(hist.slice(-12))})
+}).then(function(r){return r.json();}).then(function(d){
       cbTyp(false);
       cbAdd('b',d.choices&&d.choices[0]?d.choices[0].message.content:'Issue aa gaya. Contact: gpssingh277@gmail.com');
       busy=false;
@@ -1770,426 +2032,6 @@ document.addEventListener('keydown', e => {
   });
 })();
 </script>
-
-
-<!-- ═══ ONBOARDING GUIDE OVERLAY ═══ -->
-<div id="ob-overlay">
-  <div id="ob-box">
-    <h2>👋 Welcome to my Portfolio</h2>
-    <p>Here's how to explore and try my live AI projects:</p>
-    <div class="ob-step" onclick="obGoRhea()">
-      <div class="ob-num">01</div>
-      <div class="ob-step-text">
-        <strong>🎬 Talk to Rhea — AI Cinema Agent</strong>
-        <span>Scroll to Projects → Click "🎤 Talk to Rhea" → Allow mic → Click "Start Chat" and speak</span>
-      </div>
-    </div>
-    <div class="ob-step purple" onclick="obGoSarah()">
-      <div class="ob-num">02</div>
-      <div class="ob-step-text">
-        <strong>🦷 Talk to Sarah — Dental AI Agent</strong>
-        <span>Scroll to Projects → Click "🦷 Talk to Sarah" → Allow mic → Click "Start Chat" and speak</span>
-      </div>
-    </div>
-    <div class="ob-step" onclick="obClose()">
-      <div class="ob-num">03</div>
-      <div class="ob-step-text">
-        <strong>🤖 Chat Agent (bottom right)</strong>
-        <span>The green robot icon answers questions about Gurpreet's skills, projects, and hiring</span>
-      </div>
-    </div>
-    <div class="ob-step" onclick="obClose()">
-      <div class="ob-num">04</div>
-      <div class="ob-step-text">
-        <strong>🎙 Voice Navigate (purple mic)</strong>
-        <span>Click the purple mic button → say "Open Rhea", "Open Sarah", "Go to Contact", etc.</span>
-      </div>
-    </div>
-    <button id="ob-close-btn" onclick="obClose()">Got it — Explore Portfolio →</button>
-  </div>
-</div>
-
-<!-- Persistent Help Button (right edge) -->
-<button id="ob-help-btn" onclick="obOpen()" title="Show Guide">
-  ? Guide
-</button>
-
-
-
-<!-- Voice Toast Feedback -->
-<div id="vn-toast">
-  <div class="vn-t-label" id="vn-toast-label"></div>
-  <div id="vn-toast-text"></div>
-</div>
-
-<script>
-// ═══ ONBOARDING ═══
-(function(){
-  function obSeen(){ try{ return localStorage.getItem('ob_seen'); } catch(e){ return false; } }
-  function obMark(){ try{ localStorage.setItem('ob_seen','1'); } catch(e){} }
-
-  window.obOpen = function(){
-    document.getElementById('ob-overlay').classList.add('show');
-  };
-  window.obClose = function(){
-    document.getElementById('ob-overlay').classList.remove('show');
-    obMark();
-  };
-  window.obGoRhea = function(){
-    obClose();
-    setTimeout(function(){ openRheaPage(); }, 300);
-  };
-  window.obGoSarah = function(){
-    obClose();
-    setTimeout(function(){ openSarahPage(); }, 300);
-  };
-
-  // Show on first visit after 1.5s
-  window.addEventListener('load', function(){
-    if(!obSeen()){
-      setTimeout(obOpen, 1500);
-    }
-  });
-})();
-
-// ═══ VOICE ASSISTANT — ElevenLabs TTS + Web Speech ═══
-(function(){
-  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  var listening = false;
-  var speaking  = false;
-  var greeted   = false;
-  var rec;
-  var currentLang = 'en';   // 'en' | 'hi' | 'hi-en'
-  var currentAudio = null;
-
-  // ── Smart name aliases ────────────────────────────────────────────────
-  var ALIASES = {
-    rhea:  ['rhea','ria','riya','reya','rea','rhia','riaa','raea','reha'],
-    sarah: ['sarah','sara','sera','sarra','saara','saraa','zara','sierra']
-  };
-
-  function matchAlias(t, key){ return ALIASES[key].some(function(a){ return t.indexOf(a) !== -1; }); }
-
-  // ── Language config ───────────────────────────────────────────────────
-  var LANG_CONFIG = {
-    en: {
-      recLang: 'en-IN',
-      greet:   "Welcome to Gurpreet Singh's portfolio! I'm your voice assistant. You can say: Open Rhea, Open Sarah, Go to Projects, Contact, or About.",
-      micAsk:  "Please enable your microphone to use voice commands.",
-      notUnderstood: "Sorry, I didn't understand. You can say: Open Rhea, Open Sarah, Projects, or Contact.",
-      commands: {
-        rhea:       "Opening Rhea! Gurpreet's AI cinema booking agent.",
-        sarah:      "Opening Sarah! Gurpreet's AI dental voice assistant.",
-        projects:   "Taking you to the projects section!",
-        contact:    "Here's the contact section!",
-        about:      "Here's the about section!",
-        experience: "Here's Gurpreet's experience!",
-        top:        "Going back to the top!",
-        guide:      "Opening the guide!",
-        chat:       "Opening the chat assistant!"
-      }
-    },
-    hi: {
-      recLang: 'hi-IN',
-      greet:   "Gurpreet Singh ke portfolio mein aapka swagat hai! Main aapka voice assistant hoon. Aap keh sakte hain: Rhea kholein, Sarah kholein, Projects, Contact ya About.",
-      micAsk:  "Kripya apna microphone enable karein.",
-      notUnderstood: "Samajh nahi aaya. Aap keh sakte hain: Rhea kholein, Sarah kholein, Projects ya Contact.",
-      commands: {
-        rhea:       "Rhea khol raha hoon! Gurpreet ka AI cinema booking agent.",
-        sarah:      "Sarah khol raha hoon! Gurpreet ka AI dental assistant.",
-        projects:   "Projects section mein le ja raha hoon!",
-        contact:    "Contact section yahan hai!",
-        about:      "About section yahan hai!",
-        experience: "Gurpreet ka experience yahan hai!",
-        top:        "Upar wapas ja raha hoon!",
-        guide:      "Guide khol raha hoon!",
-        chat:       "Chat assistant khol raha hoon!"
-      }
-    },
-    'hi-en': {
-      recLang: 'en-IN',
-      greet:   "Welcome! Main Gurpreet ka voice assistant hoon. Aap bol sakte ho: Open Rhea, Open Sarah, Projects, Contact ya About.",
-      micAsk:  "Please apna microphone enable karo voice commands ke liye.",
-      notUnderstood: "Samajh nahi aaya yaar. Try karo: Open Rhea, Open Sarah, Projects, ya Contact.",
-      commands: {
-        rhea:       "Rhea open kar raha hoon! Gurpreet ka cinema AI agent.",
-        sarah:      "Sarah open kar raha hoon! Dental AI assistant.",
-        projects:   "Projects section pe le jata hoon!",
-        contact:    "Contact section yahan hai!",
-        about:      "About section yahan hai!",
-        experience: "Experience section dekho!",
-        top:        "Top pe wapas!",
-        guide:      "Guide kholta hoon!",
-        chat:       "Chat assistant kholta hoon!"
-      }
-    }
-  };
-
-  function getLang(){ return LANG_CONFIG[currentLang]; }
-
-  // ── Language switch ────────────────────────────────────────────────────
-  window.vnSetLang = function(lang){
-    currentLang = lang;
-    ['en','hi','hi-en'].forEach(function(l){
-      var map = {'en':'vl-en','hi':'vl-hi','hi-en':'vl-hien'};
-      var el = document.getElementById(map[l]);
-      if(el) el.classList.toggle('active', l === lang);
-    });
-  };
-
-  // ── ElevenLabs TTS via /api/tts ───────────────────────────────────────
-  function vaSpeak(text, onDone){
-    if(currentAudio){ currentAudio.pause(); currentAudio = null; }
-    speaking = true;
-    vaRipple(true);
-
-    fetch('/api/tts', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ text: text, language: currentLang })
-    })
-    .then(function(r){
-      if(!r.ok) throw new Error('TTS API error');
-      return r.blob();
-    })
-    .then(function(blob){
-      var url = URL.createObjectURL(blob);
-      currentAudio = new Audio(url);
-      currentAudio.onended = function(){
-        speaking = false; vaRipple(false);
-        URL.revokeObjectURL(url);
-        if(onDone) setTimeout(onDone, 200);
-      };
-      currentAudio.onerror = function(){
-        speaking = false; vaRipple(false);
-        if(onDone) onDone();
-      };
-      currentAudio.play().catch(function(){
-        // Autoplay blocked (mobile) — fallback browser TTS
-        speaking = false; vaRipple(false);
-        if(onDone) onDone();
-      });
-    })
-    .catch(function(err){
-      console.warn('ElevenLabs TTS failed, using browser TTS:', err);
-      speaking = false; vaRipple(false);
-      // Fallback to browser TTS
-      if(window.speechSynthesis){
-        var utt = new SpeechSynthesisUtterance(text);
-        utt.lang = getLang().recLang;
-        utt.rate = 0.95;
-        utt.onend = function(){ if(onDone) setTimeout(onDone, 200); };
-        window.speechSynthesis.speak(utt);
-      } else {
-        if(onDone) onDone();
-      }
-    });
-  }
-
-  // ── Ripple animation ──────────────────────────────────────────────────
-  function vaRipple(show){
-    var r = document.getElementById('va-ripple');
-    if(r) r.classList.toggle('show', show);
-  }
-
-  // ── Transcript display ────────────────────────────────────────────────
-  function vaShowTranscript(prefix, text, color, dur){
-    var el   = document.getElementById('va-transcript');
-    var pre  = document.getElementById('va-t-prefix');
-    var txt  = document.getElementById('va-t-text');
-    if(!el) return;
-    pre.textContent  = prefix;
-    txt.textContent  = text;
-    txt.style.color  = color || 'var(--text)';
-    el.classList.add('show');
-    clearTimeout(el._t);
-    el._t = setTimeout(function(){ el.classList.remove('show'); }, dur || 3000);
-  }
-
-  // ── Greeting overlay ──────────────────────────────────────────────────
-  function vaShowGreeting(onDone){
-    var ov   = document.getElementById('va-greeting');
-    var fill = document.getElementById('va-greet-bar-fill');
-    if(!ov) { if(onDone) onDone(); return; }
-
-    ov.classList.add('show');
-
-    // Animate progress bar over 4s then hide
-    setTimeout(function(){
-      if(fill){ fill.style.transition = 'width 4s linear'; fill.style.width = '100%'; }
-    }, 200);
-
-    setTimeout(function(){
-      ov.classList.add('hide');
-      setTimeout(function(){
-        ov.classList.remove('show','hide');
-        if(fill){ fill.style.transition = 'none'; fill.style.width = '0%'; }
-        if(onDone) onDone();
-      }, 600);
-    }, 4500);
-  }
-
-  // ── Command matching ──────────────────────────────────────────────────
-  var CMD_KEYWORDS = {
-    rhea:       function(t){ return matchAlias(t,'rhea') || t.indexOf('cinema')!==-1 || t.indexOf('movie')!==-1 || t.indexOf('film')!==-1 || t.indexOf('booking')!==-1; },
-    sarah:      function(t){ return matchAlias(t,'sarah') || t.indexOf('dental')!==-1 || t.indexOf('dentist')!==-1 || t.indexOf('clinic')!==-1 || t.indexOf('appointment')!==-1; },
-    projects:   function(t){ return t.indexOf('project')!==-1 || t.indexOf('work')!==-1 || t.indexOf('kaam')!==-1; },
-    contact:    function(t){ return t.indexOf('contact')!==-1 || t.indexOf('hire')!==-1 || t.indexOf('email')!==-1 || t.indexOf('reach')!==-1 || t.indexOf('sampark')!==-1; },
-    about:      function(t){ return t.indexOf('about')!==-1 || t.indexOf('intro')!==-1 || t.indexOf('bio')!==-1 || t.indexOf('kaun')!==-1; },
-    experience: function(t){ return t.indexOf('experience')!==-1 || t.indexOf('intern')!==-1 || t.indexOf('job')!==-1 || t.indexOf('anubhav')!==-1; },
-    top:        function(t){ return t.indexOf('top')!==-1 || t.indexOf('home')!==-1 || t.indexOf('start')!==-1 || t.indexOf('upar')!==-1 || t.indexOf('back')!==-1; },
-    guide:      function(t){ return t.indexOf('guide')!==-1 || t.indexOf('help')!==-1 || t.indexOf('how')!==-1 || t.indexOf('madad')!==-1; },
-    chat:       function(t){ return t.indexOf('chat')!==-1 || t.indexOf('bot')!==-1 || t.indexOf('assistant')!==-1 || t.indexOf('question')!==-1; }
-  };
-
-  var CMD_ACTIONS = {
-    rhea:       function(){ if(typeof obClose==='function') obClose(); openRheaPage(); },
-    sarah:      function(){ if(typeof obClose==='function') obClose(); openSarahPage(); },
-    projects:   function(){ document.getElementById('projects').scrollIntoView({behavior:'smooth'}); },
-    contact:    function(){ document.getElementById('contact').scrollIntoView({behavior:'smooth'}); },
-    about:      function(){ document.getElementById('about').scrollIntoView({behavior:'smooth'}); },
-    experience: function(){ document.getElementById('experience').scrollIntoView({behavior:'smooth'}); },
-    top:        function(){ window.scrollTo({top:0,behavior:'smooth'}); },
-    guide:      function(){ if(typeof obOpen==='function') obOpen(); },
-    chat:       function(){ if(typeof cbToggle==='function') cbToggle(); }
-  };
-
-  function vnMatch(transcript){
-    var t = transcript.toLowerCase();
-    var keys = Object.keys(CMD_KEYWORDS);
-    for(var i=0;i<keys.length;i++){
-      if(CMD_KEYWORDS[keys[i]](t)) return keys[i];
-    }
-    return null;
-  }
-
-  // ── Start mic listening ───────────────────────────────────────────────
-  function vnStartListening(){
-    if(!SR){
-      vaShowTranscript('⚠', 'Use Chrome for voice nav', '#ff4444', 3000);
-      return;
-    }
-    rec = new SR();
-    rec.lang = getLang().recLang;
-    rec.interimResults = false;
-    rec.maxAlternatives = 5;
-
-    rec.onstart = function(){
-      listening = true;
-      document.getElementById('vn-btn').classList.add('listening');
-      document.getElementById('vn-btn-label').textContent = '🔴 Listening...';
-      vaShowTranscript('🎙', 'Listening — say a command...', 'var(--accent2)', 10000);
-    };
-
-    rec.onresult = function(e){
-      // Collect all alternatives for better matching
-      var transcripts = [];
-      for(var i=0;i<e.results[0].length;i++){
-        transcripts.push(e.results[0][i].transcript.trim().toLowerCase());
-      }
-      var combined = transcripts.join(' ');
-
-      listening = false;
-      document.getElementById('vn-btn').classList.remove('listening');
-      document.getElementById('vn-btn-label').textContent = '🎙 Voice Nav';
-
-      var cmdKey = vnMatch(combined);
-      if(cmdKey){
-        var reply = getLang().commands[cmdKey];
-        vaShowTranscript('You said:', transcripts[0], 'var(--text)', 2500);
-        setTimeout(function(){
-          vaShowTranscript('Assistant:', reply, 'var(--accent)', 3000);
-        }, 600);
-        vaSpeak(reply, function(){ setTimeout(CMD_ACTIONS[cmdKey], 200); });
-      } else {
-        var notUnderstood = getLang().notUnderstood;
-        vaShowTranscript('You said:', transcripts[0] || '?', '#ff9944', 2500);
-        setTimeout(function(){
-          vaSpeak(notUnderstood);
-        }, 400);
-      }
-    };
-
-    rec.onerror = function(e){
-      listening = false;
-      document.getElementById('vn-btn').classList.remove('listening');
-      document.getElementById('vn-btn-label').textContent = '🎙 Voice Nav';
-      if(e.error === 'not-allowed'){
-        vaShowTranscript('🚫', 'Mic blocked — allow in Chrome 🔒', '#ff4444', 4000);
-        vaSpeak(getLang().micAsk);
-      } else if(e.error !== 'aborted'){
-        vaShowTranscript('⚠', 'Error — try again', '#ff4444', 2000);
-      }
-    };
-
-    rec.onend = function(){
-      listening = false;
-      document.getElementById('vn-btn').classList.remove('listening');
-      document.getElementById('vn-btn-label').textContent = '🎙 Voice Nav';
-    };
-
-    rec.start();
-  }
-
-  // ── Main toggle ───────────────────────────────────────────────────────
-  window.vnToggle = function(){
-    if(listening){
-      listening = false;
-      if(rec) rec.stop();
-      if(currentAudio){ currentAudio.pause(); }
-      document.getElementById('vn-btn').classList.remove('listening');
-      document.getElementById('vn-btn-label').textContent = '🎙 Voice Nav';
-      vaRipple(false);
-      vaShowTranscript('', 'Voice nav stopped', 'var(--muted)', 1500);
-      return;
-    }
-    vnStartListening();
-  };
-
-  // ── Page load: show greeting overlay + speak ──────────────────────────
-  window.addEventListener('load', function(){
-    var isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-    var greetText = getLang().greet;
-
-    setTimeout(function(){
-      // Always show greeting overlay (text works everywhere)
-      vaShowGreeting(null);
-      // Play voice greeting (desktop only — mobile autoplay blocked)
-      if(!isMobile){
-        vaSpeak(greetText, null);
-      } else {
-        // On mobile show mic hint in transcript
-        setTimeout(function(){
-          vaShowTranscript('💡', 'Tap "Voice Nav" to navigate by voice', 'var(--accent2)', 5000);
-        }, 2000);
-      }
-    }, 2000);
-  });
-
-})();
-</script>
-
-
-<!-- ═══ VOICE ASSISTANT UI ═══ -->
-<div id="va-greeting">
-  <div id="va-greet-icon">🎙</div>
-  <div id="va-greet-text">Welcome to <span>Gurpreet's</span> Portfolio</div>
-  <div id="va-greet-sub" id="va-greet-sub">I'm your AI voice assistant.<br>Say a command to navigate — or click <strong style="color:#e8e8f0">Voice Nav</strong> anytime.</div>
-  <div id="va-greet-bar"><div id="va-greet-bar-fill"></div></div>
-</div>
-
-<div id="va-transcript">
-  <span class="va-t-prefix" id="va-t-prefix"></span>
-  <span id="va-t-text"></span>
-</div>
-
-<div id="va-ripple">
-  <div class="va-ripple-bar"></div>
-  <div class="va-ripple-bar"></div>
-  <div class="va-ripple-bar"></div>
-  <div class="va-ripple-bar"></div>
-  <div class="va-ripple-bar"></div>
-</div>
 
 </body>
 </html>
