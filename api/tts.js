@@ -8,7 +8,10 @@ const ALLOWED_ORIGINS = [
 
 export default async function handler(req) {
   const origin = req.headers.get('origin') || '';
-  const isAllowed = ALLOWED_ORIGINS.some(o => origin.startsWith(o));
+
+  // Same-origin requests from Vercel have no origin header — allow them
+  // Only block if origin is explicitly set AND not in allowed list
+  const isAllowed = !origin || ALLOWED_ORIGINS.some(o => origin.startsWith(o));
 
   // CORS preflight
   if (req.method === 'OPTIONS') {
@@ -16,7 +19,7 @@ export default async function handler(req) {
     return new Response(null, {
       status: 200,
       headers: {
-        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Origin': origin || '*',
         'Access-Control-Allow-Methods': 'POST',
         'Access-Control-Allow-Headers': 'Content-Type',
       }
@@ -28,7 +31,6 @@ export default async function handler(req) {
     return new Response('Method not allowed', { status: 405 });
   }
 
-  // Block unknown origins — same pattern as chat.js
   if (!isAllowed) {
     return new Response('Forbidden', { status: 403 });
   }
@@ -48,6 +50,7 @@ export default async function handler(req) {
     const apiKey  = process.env.ELEVENLABS_API_KEY;
 
     if (!voiceId || !apiKey) {
+      console.error('Missing env vars: ELEVENLABS_VOICE_ID or ELEVENLABS_API_KEY not set');
       return new Response('Server config error', { status: 500 });
     }
 
@@ -75,22 +78,28 @@ export default async function handler(req) {
 
     if (!response.ok) {
       const err = await response.text();
-      console.error('ElevenLabs error:', err);
-      return new Response('TTS error', { status: 502 });
+      console.error('ElevenLabs error:', response.status, err);
+      return new Response('TTS error', {
+        status: 502,
+        headers: { 'Access-Control-Allow-Origin': origin || '*' }
+      });
     }
 
-    // Stream audio back — only to allowed origin
+    // Stream audio back
     return new Response(response.body, {
       status: 200,
       headers: {
         'Content-Type': 'audio/mpeg',
         'Cache-Control': 'no-store',
-        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Origin': origin || '*',
       }
     });
 
   } catch (err) {
     console.error('TTS handler error:', err);
-    return new Response('Server error', { status: 500 });
+    return new Response('Server error', {
+      status: 500,
+      headers: { 'Access-Control-Allow-Origin': origin || '*' }
+    });
   }
 }
