@@ -1579,9 +1579,18 @@ function voiceGreet(){
 }
 
 function voiceSetStatus(s){var el=document.getElementById('voice-status');if(el)el.textContent=s;}
-function voiceSetWave(active){var w=documentclassName='vc-msg '+role;
+function voiceSetWave(active){
+  var w=document.getElementById('voice-wave');
+  if(w)w.classList.toggle('active',active);
+}
+function voiceAddMsg(role,txt){
+  var convo=document.getElementById('voice-convo');
+  if(!convo)return;
+  var d=document.createElement('div');
+  d.className='vc-msg '+role;
   d.textContent=(role==='user'?'You: ':'')+txt;
-  convo.appendChild(d);convo.scrollTop=convo.scrollHeight;
+  convo.appendChild(d);
+  convo.scrollTop=convo.scrollHeight;
 }
 
 function voiceSpeak(text,cb){
